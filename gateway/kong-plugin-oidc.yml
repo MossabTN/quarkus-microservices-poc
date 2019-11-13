@@ -1,0 +1,21 @@
+apiVersion: configuration.konghq.com/v1
+kind: KongPlugin
+metadata:
+  name: kong-oidc
+config:
+  "response_type": "code"
+  "introspection_endpoint": "http://192.168.99.100:32698/auth/realms/local/protocol/openid-connect/token/introspect"
+  "filters": null
+  "bearer_only": "yes"
+  "ssl_verify": "no"
+  "session_secret": null
+  "introspection_endpoint_auth_method": null
+  "realm": "kong"
+  "redirect_after_logout_uri": "/"
+  "scope": "openid"
+  "token_endpoint_auth_method": "client_secret_post"
+  "logout_path": "/logout"
+  "client_id": "kong"
+  "client_secret": "06278770-d0cc-4380-9bca-2b686992f66b"
+  "discovery": "http://192.168.99.100:32698/auth/realms/master/.well-known/openid-configuration"
+plugin: oidc

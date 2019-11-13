@@ -1,0 +1,14 @@
+ingressController:
+  enabled: true
+admin:
+  useTLS: false
+#image:
+#  tag: accretio
+#env:
+#  plugins: bundled,oidc
+#plugins:
+#  configMaps:
+#    - name: oidc
+#      pluginName: oidc
+#serviceMonitor:
+#  enabled: true

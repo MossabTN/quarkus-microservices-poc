@@ -1,0 +1,16 @@
+keycloak:
+  ingress:
+    enabled: true
+    path: /keycloak
+  service:
+    type: NodePort
+    httpNodePort: 32698
+  extraVolumes: |
+    - name: realm-secret
+      secret:
+        secretName: realm-secret
+  extraVolumeMounts: |
+    - name: realm-secret
+      mountPath: "/realm/"
+      readOnly: true
+  extraArgs: -Dkeycloak.import=/realm/realm.json
