@@ -4,18 +4,17 @@
             <span class="logo"></span>
         </a>
         <span class="title">
-        <a href="https://github.com/mauriciovigolo/keycloak-angular" target="_blank">MaxiLoG`</a>
-        - Let's Go
+        <a routerLink="/">MaxiLoG`</a>
       </span>
     </div>
     <div class="header-nav" [clr-nav-level]="1">
-        <a routerLink="/" class="active nav-link nav-text">Home</a>
-        <a class="nav-link nav-text" routerLink="/users">Users</a>
+        <a routerLink="/home" class=" nav-link nav-text" [routerLinkActive]="['active']" >Home</a>
+        <a routerLink="/users" class="nav-link nav-text" [routerLinkActive]="['active']">Users</a>
     </div>
     <div class="header-actions">
         <clr-dropdown>
             <button class="nav-icon" clrDropdownTrigger>
-                <clr-icon shape="user"></clr-icon>
+                <clr-icon shape="notification"></clr-icon>
                 <clr-icon shape="caret down"></clr-icon>
             </button>
             <clr-dropdown-menu *clrIfOpen clrPosition="bottom-right">

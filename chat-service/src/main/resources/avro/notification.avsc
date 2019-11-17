@@ -1,0 +1,12 @@
+{
+  "namespace" : "io.maxilog.chat",
+  "type" : "record",
+  "name" : "NotificationKafka",
+  "fields" : [
+    {"name":"from","type":"string"},
+    {"name":"to","type":"string"},
+    {"name":"payload","type":"string"},
+    {"name":"type","type":"string","default": "notification"},
+    {"name":"seen","type":"boolean","default": false}
+]
+}

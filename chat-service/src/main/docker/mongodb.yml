@@ -1,0 +1,11 @@
+version: '2'
+services:
+    mongodb:
+        image: mongo:3.4.5
+        ports:
+            - 27017:27017
+        environment:
+            - MONGO_INITDB_ROOT_USERNAME=adminmaxilog
+            - MONGO_INITDB_ROOT_PASSWORD=adminmaxilog2019
+        volumes:
+            - ./data/db:/data/db

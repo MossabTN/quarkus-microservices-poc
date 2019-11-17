@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Chat!</title>
+    <link rel="stylesheet" type="text/css"
+          href="https://cdnjs.cloudflare.com/ajax/libs/patternfly/3.24.0/css/patternfly.min.css">
+    <link rel="stylesheet" type="text/css"
+          href="https://cdnjs.cloudflare.com/ajax/libs/patternfly/3.24.0/css/patternfly-additions.min.css">
+
+    <style>
+        #chat {
+            resize: none;
+            overflow: hidden;
+            min-height: 300px;
+            max-height: 300px;
+        }
+    </style>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.4.0/sockjs.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vertx/3.8.2/vertx-eventbus.js"></script>
+</head>
+
+<body>
+<nav class="navbar navbar-default navbar-pf" role="navigation">
+    <div class="navbar-header">
+        <a class="navbar-brand" href="/">
+            <p><strong>>>Chat!</strong></p>
+        </a>
+    </div>
+</nav>
+<div class="container">
+    <br/>
+    <div class="row">
+        <input id="name" class="col-md-4" type="text" placeholder="your jwt">
+        <button id="connect" class="col-md-1 btn btn-primary" type="button">connect</button>
+        <br/>
+        <br/>
+    </div>
+    <div class="row">
+          <textarea class="col-md-8" id="chat">
+            </textarea>
+    </div>
+    <div class="row">
+        <input class="col-md-6" id="msg" type="text" placeholder="enter your message">
+        <button class="col-md-1 btn btn-primary" id="send" type="button" disabled>send</button>
+    </div>
+
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/patternfly/3.24.0/js/patternfly.min.js"></script>
+
+<script type="text/javascript">
+
+    let eventBus;
+    var connected = false;
+
+    $(document).ready(function () {
+        $("#connect").click(connect);
+        $("#send").click(sendMessage);
+
+        $("#name").keypress(function (event) {
+            if (event.keyCode == 13 || event.which == 13) {
+                connect();
+            }
+        });
+
+        $("#msg").keypress(function (event) {
+            if (event.keyCode == 13 || event.which == 13) {
+                sendMessage();
+            }
+        });
+
+        $("#chat").change(function () {
+            scrollToBottom();
+        });
+
+        $("#name").focus();
+    });
+
+    var connect = function () {
+        if (!connected) {
+            var token = $("#name").val();
+
+            eventBus = new EventBus('http://localhost:8020/ws/chat?access-token=' + token);
+            eventBus.enableReconnect(true);
+            eventBus.onopen = function () {
+
+                console.log("Connected to the web socket");
+                $("#send").attr("disabled", false);
+                $("#connect").attr("disabled", true);
+                $("#name").attr("disabled", true);
+                $("#msg").focus();
+                connected = true
+
+                eventBus.registerHandler('out', function (error, message) {
+                    console.log("Got message: " + message.body);
+                    try {
+                        $("#chat").append(JSON.parse(message.body).body + "\n");
+                    }catch (e) {
+
+                    }
+                    scrollToBottom();
+                });
+            }
+            eventBus.onclose = function (e) {
+                console.log("Connection closed")
+                console.log(e)
+            }
+        }
+    };
+
+    var sendMessage = function () {
+        if (connected) {
+            var value = $("#msg").val();
+            console.log("Sending " + value);
+            eventBus.send("in", value)
+            $("#msg").val("");
+        }
+    };
+
+    var scrollToBottom = function () {
+        $('#chat').scrollTop($('#chat')[0].scrollHeight);
+    };
+
+</script>
+</body>
+
+</html>

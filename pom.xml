@@ -6,6 +6,9 @@
   <packaging>pom</packaging>
   
   <modules>
-    <module>module1</module>
+    <module>users-service</module>
+    <module>chat-service</module>
+    <module>product-service</module>
+    <module>order-service</module>
   </modules>
 </project>

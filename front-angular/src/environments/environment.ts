@@ -7,16 +7,13 @@ import { KeycloakConfig } from 'keycloak-angular';
 
 // Add here your keycloak setup infos
 let keycloakConfig: KeycloakConfig = {
-  url: 'http://192.168.99.100:32698/auth',
-  realm: 'local',
+  url: 'http://localhost:9080/auth',
+  realm: 'quarkus',
   clientId: 'front'
 };
 
 export const environment = {
   production: false,
-  assets: {
-    dotaImages: 'https://cdn-keycloak-angular.herokuapp.com/assets/images/dota-heroes/'
-  },
-  api: 'http://localhost:3000',
-  keycloakConfig
+  apis: { users: 'http://localhost:8080' },
+  keycloak: keycloakConfig
 };

@@ -1,6 +1,6 @@
 {
-  "id" : "local",
-  "realm" : "local",
+  "id" : "quarkus",
+  "realm" : "quarkus",
   "notBefore" : 0,
   "revokeRefreshToken" : false,
   "refreshTokenMaxReuse" : 0,
@@ -43,7 +43,7 @@
       "description" : "${role_uma_authorization}",
       "composite" : false,
       "clientRole" : false,
-      "containerId" : "local",
+      "containerId" : "quarkus",
       "attributes" : { }
     }, {
       "id" : "c996b603-35e1-471a-b1ad-eaeea957f03e",
@@ -51,9 +51,18 @@
       "description" : "${role_offline-access}",
       "composite" : false,
       "clientRole" : false,
-      "containerId" : "local",
+      "containerId" : "quarkus",
       "attributes" : { }
-    } ],
+    },
+      {
+        "id": "db585581-c356-4b5b-b295-1b71dc3f1da5",
+        "name": "ROLE_ADMIN",
+        "composite": false,
+        "clientRole": false,
+        "containerId": "quarkus",
+        "attributes": {}
+      }
+    ],
     "client" : {
       "realm-management" : [ {
         "id" : "e6be6fd9-b8c9-4da2-8414-52c5e90c3d9d",
@@ -265,7 +274,7 @@
         "containerId" : "f4937fbf-4853-496f-9c55-321f1bd0fe05",
         "attributes" : { }
       } ],
-      "kong" : [ ]
+      "back" : [ ]
     }
   },
   "groups" : [ ],
@@ -279,44 +288,46 @@
   "otpPolicyPeriod" : 30,
   "otpSupportedApplications" : [ "FreeOTP", "Google Authenticator" ],
   "users" : [ {
-    "id" : "680181e0-d283-4ba7-82c3-cf6f67db98cd",
-    "createdTimestamp" : 1570722549695,
-    "username" : "johndoe",
-    "enabled" : true,
-    "totp" : false,
-    "emailVerified" : true,
-    "firstName" : "John",
-    "lastName" : "Doe",
-    "email" : "john.doe@maxiog.io",
-    "credentials" : [ {
-      "type" : "password",
-      "hashedSaltedValue" : "xVCfnX61ShxgFrkLpeBYHmh+ghtdZ7jDJXA32HGuVsLd+KkqYuzRKA6e/NRotNxksInB/0GIXtSqtDH75e01xw==",
-      "salt" : "Bg/zd4Yow5MQk65Ajk1MJg==",
-      "hashIterations" : 27500,
-      "counter" : 0,
-      "algorithm" : "pbkdf2-sha256",
-      "digits" : 0,
-      "period" : 0,
-      "createdDate" : 1570722561371,
-      "config" : { }
-    } ],
+    "id": "7e06fda2-51d9-4dba-a5b4-e49735fa728d",
+    "createdTimestamp": 1571328760190,
+    "username": "admin",
+    "enabled": true,
+    "totp": false,
+    "emailVerified": true,
+    "firstName": "admin",
+    "lastName": "admin",
+    "email" : "admin@maxiog.io",
+    "credentials": [
+      {
+        "type": "password",
+        "hashedSaltedValue": "R70jF9ZPJArMei5gwGHgczC1y9S12E11BACvLgDj/A3YD6W74HiayVkw2GluET73i4ur7C3vUFvyo5zXFkSD/g==",
+        "salt": "nVqhIO5EXIfe8a1ZEb5PKA==",
+        "hashIterations": 27500,
+        "counter": 0,
+        "algorithm": "pbkdf2-sha256",
+        "digits": 0,
+        "period": 0,
+        "createdDate": 1571328781913,
+        "config": {}
+      }
+    ],
     "disableableCredentialTypes" : [ "password" ],
     "requiredActions" : [ ],
-    "realmRoles" : [ "uma_authorization", "offline_access" ],
+    "realmRoles" : [ "uma_authorization", "offline_access",  "ROLE_ADMIN" ],
     "clientRoles" : {
-      "account" : [ "manage-account", "view-profile" ]
+      "account" : [ "manage-account", "view-profile", "ROLE_ADMIN" ]
     },
     "notBefore" : 0,
     "groups" : [ ]
   }, {
     "id" : "e74fb4f7-0341-4c36-9a9e-c17b1e51d9f2",
     "createdTimestamp" : 1570722508442,
-    "username" : "service-account-kong",
+    "username" : "service-account-back",
     "enabled" : true,
     "totp" : false,
     "emailVerified" : false,
-    "email" : "service-account-kong@placeholder.org",
-    "serviceAccountClientId" : "kong",
+    "email" : "service-account-back@placeholder.org",
+    "serviceAccountClientId" : "back",
     "credentials" : [ ],
     "disableableCredentialTypes" : [ ],
     "requiredActions" : [ ],
@@ -418,8 +429,8 @@
     "enabled" : true,
     "clientAuthenticatorType" : "client-secret",
     "secret" : "**********",
-    "redirectUris" : [ "front" ],
-    "webOrigins" : [ ],
+    "redirectUris" : [ "http://localhost:8080/*", "http://localhost:4200/*" ],
+    "webOrigins" : [ "http://localhost:8080", "http://localhost:4200" ],
     "notBefore" : 0,
     "bearerOnly" : false,
     "consentRequired" : false,
@@ -466,15 +477,15 @@
     "optionalClientScopes" : [ "address", "phone", "offline_access", "microprofile-jwt" ]
   }, {
     "id" : "1ca8ff67-a135-49ed-8fc6-9c87b889c8a0",
-    "clientId" : "kong",
-    "rootUrl" : "http://localhost:8000",
-    "adminUrl" : "http://localhost:8000",
+    "clientId" : "back",
+    "rootUrl" : "http://localhost:9080",
+    "adminUrl" : "http://localhost:9080",
     "surrogateAuthRequired" : false,
     "enabled" : true,
     "clientAuthenticatorType" : "client-secret",
-    "secret" : "06278770-d0cc-4380-9bca-2b686992f66b",
-    "redirectUris" : [ "http://localhost:8000/*" ],
-    "webOrigins" : [ "http://localhost:8000" ],
+    "secret": "back",
+    "redirectUris" : [ "http://localhost:8080/*", "http://localhost:4200/*" ],
+    "webOrigins" : [ "http://localhost:8080" ],
     "notBefore" : 0,
     "bearerOnly" : false,
     "consentRequired" : false,

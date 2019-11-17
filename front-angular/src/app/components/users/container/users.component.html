@@ -6,24 +6,12 @@
   </div>
   <div class="row">
     <clr-datagrid class="col-xs">
-      <clr-dg-column>UsersModel</clr-dg-column>
-      <clr-dg-column>Attack</clr-dg-column>
-      <clr-dg-column>Roles</clr-dg-column>
-      <clr-dg-column>Legs</clr-dg-column>
+      <clr-dg-column>UserName</clr-dg-column>
 
       <clr-dg-row *clrDgItems="let user of users$ | async">
+
         <clr-dg-cell>
-          <span class="users-small-image" [style.backgroundImage]="user.image_url"></span>
-          <a routerLink="/users/{{ user.id }}">{{ user.localized_name }} ></a>
-        </clr-dg-cell>
-        <clr-dg-cell>
-          {{ user.attack_type }}
-        </clr-dg-cell>
-        <clr-dg-cell>
-          {{ user.roles }}
-        </clr-dg-cell>
-        <clr-dg-cell>
-          {{ user.legs }}
+          {{ user?.userName }}
         </clr-dg-cell>
       </clr-dg-row>
     </clr-datagrid>

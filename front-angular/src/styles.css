@@ -13,7 +13,8 @@
 }
 
 .header .branding .logo {
-  background: url('./assets/keycloak-angular-dota.png') no-repeat center center;
+  background: url('assets/logo.png') no-repeat center center;
+  background-size: 34px 34px;
   width: 34px;
   height: 34px;
   margin-right: 10px;

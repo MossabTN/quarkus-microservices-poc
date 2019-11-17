@@ -3,7 +3,7 @@ ingressController:
 admin:
   useTLS: false
 #image:
-#  tag: accretio
+#  tag: maxilog
 #env:
 #  plugins: bundled,oidc
 #plugins:

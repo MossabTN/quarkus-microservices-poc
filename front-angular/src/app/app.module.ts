@@ -46,10 +46,10 @@ let keycloakService: KeycloakService = new KeycloakService();
 })
 export class AppModule implements DoBootstrap {
     async ngDoBootstrap(app) {
-        const {keycloakConfig} = environment;
+        const {keycloak} = environment;
 
         try {
-            await keycloakService.init({config: keycloakConfig});
+            await keycloakService.init({config: keycloak});
             app.bootstrap(AppComponent);
         } catch (error) {
             console.error('Keycloak init failed', error);

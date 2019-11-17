@@ -1,0 +1,13 @@
+module.exports = [
+        {
+            "username": "admin",
+            "email": "admin@maxilog.io",
+            "firstName": "admin",
+            "lastName": "admin",
+            "node_id": "http://kong:8001",
+            "admin": true,
+            "active" : true,
+            "password": "admin2019"
+        }
+
+    ]
