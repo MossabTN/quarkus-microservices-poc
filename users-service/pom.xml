@@ -78,9 +78,49 @@
       <groupId>io.quarkus</groupId>
       <artifactId>quarkus-vertx-web</artifactId>
     </dependency>
+    <dependency>
+      <groupId>io.quarkus</groupId>
+      <artifactId>quarkus-smallrye-reactive-messaging-kafka</artifactId>
+    </dependency>
+    <!--avro dependencies-->
+    <dependency>
+      <groupId>org.apache.avro</groupId>
+      <artifactId>avro</artifactId>
+      <version>1.9.1</version>
+    </dependency>
+    <dependency>
+      <groupId>io.confluent</groupId>
+      <artifactId>kafka-avro-serializer</artifactId>
+      <version>5.1.0</version>
+    </dependency>
+    <dependency>
+      <groupId>org.codehaus.jackson</groupId>
+      <artifactId>jackson-mapper-asl</artifactId>
+      <version>1.9.13</version>
+    </dependency>
+    <!--avro dependencies-->
   </dependencies>
   <build>
     <plugins>
+      <plugin>
+        <groupId>org.apache.avro</groupId>
+        <artifactId>avro-maven-plugin</artifactId>
+        <version>1.9.1</version>
+        <configuration>
+          <stringType>String</stringType>
+        </configuration>
+        <executions>
+          <execution>
+            <phase>generate-sources</phase>
+            <goals>
+              <goal>schema</goal>
+            </goals>
+            <configuration>
+              <sourceDirectory>src/main/resources/avro/</sourceDirectory>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
       <plugin>
         <groupId>org.jboss.jandex</groupId>
         <artifactId>jandex-maven-plugin</artifactId>
@@ -132,61 +172,6 @@
         </executions>
       </plugin>
       <!--<plugin>
-        <groupId>io.fabric8</groupId>
-        <artifactId>docker-maven-plugin</artifactId>
-        <version>${docker-plugin.version}</version>
-        <executions>
-          <execution>
-            <id>docker-start</id>
-            <phase>test-compile</phase>
-            <goals>
-              <goal>stop</goal>
-              <goal>start</goal>
-            </goals>
-          </execution>
-          <execution>
-            <id>docker-stop</id>
-            <phase>post-integration-test</phase>
-            <goals>
-              <goal>stop</goal>
-            </goals>
-          </execution>
-        </executions>
-        <configuration>
-          <skip>${skipTests}</skip>
-          <images>
-            <image>
-              <name>postgres:11.5</name>
-              <alias>docker_postgresql_1</alias>
-              <run>
-                <env>
-                  <POSTGRES_USER>quarkus</POSTGRES_USER>
-                  <POSTGRES_PASSWORD>quarkus</POSTGRES_PASSWORD>
-                  <POSTGRES_DB>quarkus</POSTGRES_DB>
-                </env>
-                <ports>
-                  <port>5432:5432</port>
-                </ports>
-                <log>
-                  <prefix>PostgreSQL:</prefix>
-                  <date>default</date>
-                  <color>cyan</color>
-                </log>
-                <wait>
-                  <tcp>
-                    <mode>mapped</mode>
-                    <ports>
-                      <port>5432</port>
-                    </ports>
-                  </tcp>
-                  <time>10000</time>
-                </wait>
-              </run>
-            </image>&ndash;&gt;
-          </images>
-        </configuration>
-      </plugin>-->
-      <!--<plugin>
         <groupId>com.github.alexcojocaru</groupId>
         <artifactId>elasticsearch-maven-plugin</artifactId>
         <version>${elasticsearch-maven-plugin.version}</version>
@@ -220,9 +205,6 @@
   <profiles>
     <profile>
       <id>native</id>
-      <properties>
-        <quarkus.package.type>native</quarkus.package.type>
-      </properties>
       <activation>
         <property>
           <name>native</name>
@@ -241,10 +223,6 @@
                 </goals>
                 <configuration>
                   <enableHttpUrlHandler>true</enableHttpUrlHandler>
-                  <additionalBuildArgs>
-                    <additionalBuildArg>-H:ResourceConfigurationFiles=${project.basedir}/resources-config.json</additionalBuildArg>
-                    <additionalBuildArg>-H:ReflectionConfigurationFiles=${project.basedir}/reflection-config.json</additionalBuildArg>
-                  </additionalBuildArgs>
                 </configuration>
               </execution>
             </executions>
@@ -268,6 +246,10 @@
           </plugin>
         </plugins>
       </build>
+      <properties>
+        <quarkus.package.type>native</quarkus.package.type>
+        <quarkus.native.additional-build-args>-H:ResourceConfigurationFiles=${project.basedir}/resources-config.json,-H:ReflectionConfigurationFiles=${project.basedir}/reflection-config.json</quarkus.native.additional-build-args>
+      </properties>
     </profile>
   </profiles>
 </project>

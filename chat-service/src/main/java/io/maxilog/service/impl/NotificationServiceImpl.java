@@ -63,8 +63,7 @@ public class NotificationServiceImpl implements NotificationService {
     }
 
     @Override
-    public void notify(NotificationDTO notificationDTO) {
-        Notification notification = notificationMapper.toEntity(notificationDTO);
+    public void notify(Notification notification) {
         notification.persist();
         if(notification.getTo().equals("ALL")){
             LOG.info("Send notification to all users");
@@ -84,9 +83,9 @@ public class NotificationServiceImpl implements NotificationService {
     }
 
     @Incoming("input")
-    private CompletionStage consumeKafkaNotification(KafkaMessage<String, NotificationKafka> message) {
+    public CompletionStage consumeKafkaNotification(KafkaMessage<String, NotificationKafka> message) {
         LOG.info("receiving notification from kafka");
-        notify(notificationMapper.toDto(notificationKafkaMapper.toEntity(message.getPayload())));
+        notify(notificationKafkaMapper.toEntity(message.getPayload()));
         return message.ack();
     }
 

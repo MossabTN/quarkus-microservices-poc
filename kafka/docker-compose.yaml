@@ -35,7 +35,7 @@ services:
     networks:
       - confluent-net
     ports:
-      - 8081:8081
+      - 8881:8081
     environment:
       SR_HOSTNAME: schema-registry
       SR_LISTENERS: http://schema-registry:8081

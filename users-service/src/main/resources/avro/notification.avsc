@@ -7,6 +7,6 @@
     {"name":"to","type":["string", "null"]},
     {"name":"payload","type":["string", "null"]},
     {"name":"type","type":["string", "null"],"default": "notification"},
-    {"name":"seen","type":"boolean","default": false}
+    {"name":"seen","type":["boolean", "null"],"default": false}
 ]
 }

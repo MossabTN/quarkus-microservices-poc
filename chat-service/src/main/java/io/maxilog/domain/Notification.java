@@ -32,11 +32,11 @@ public class Notification extends PanacheMongoEntity {
     }
 
     public String getId() {
-        return id.toString();
+        return id==null?null:id.toString();
     }
 
     public void setId(String id) {
-        this.id = new ObjectId(id);
+        this.id = id==null?null:new ObjectId(id);
     }
 
     public String getFrom() {

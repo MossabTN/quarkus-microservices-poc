@@ -1,6 +1,7 @@
 package io.maxilog.service;
 
 import io.maxilog.chat.NotificationKafka;
+import io.maxilog.domain.Notification;
 import io.maxilog.service.dto.NotificationDTO;
 import io.quarkus.panache.common.Page;
 import io.vertx.core.eventbus.EventBus;
@@ -24,9 +25,9 @@ public interface NotificationService {
     /**
      * Notify.
      *
-     * @param notificationDTO the payload to notify
+     * @param notification the payload to notify
      */
-    void notify(NotificationDTO notificationDTO);
+    void notify(Notification notification);
 
     /**
      * publish.

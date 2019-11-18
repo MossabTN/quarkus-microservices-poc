@@ -12,9 +12,20 @@
         <a routerLink="/users" class="nav-link nav-text" [routerLinkActive]="['active']">Users</a>
     </div>
     <div class="header-actions">
+        <clr-dropdown [clrCloseMenuOnItemClick]="false">
+            <button clrDropdownTrigger aria-label="Dropdown demo button">
+                <clr-icon shape="bell" class="has-badge" size="24"></clr-icon>
+                <clr-icon shape="caret down"></clr-icon>
+            </button>
+            <clr-dropdown-menu *clrIfOpen clrPosition="bottom-right">
+                <label class="dropdown-header" aria-hidden="true">Dropdown header</label>
+                <div clrDropdownItem>Link 1</div>
+                <div clrDropdownItem>Link 2</div>
+            </clr-dropdown-menu>
+        </clr-dropdown>
         <clr-dropdown>
             <button class="nav-icon" clrDropdownTrigger>
-                <clr-icon shape="notification"></clr-icon>
+                <clr-icon shape="user"></clr-icon>
                 <clr-icon shape="caret down"></clr-icon>
             </button>
             <clr-dropdown-menu *clrIfOpen clrPosition="bottom-right">
