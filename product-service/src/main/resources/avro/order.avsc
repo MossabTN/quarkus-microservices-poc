@@ -1,0 +1,21 @@
+{
+  "namespace" : "io.maxilog.order",
+  "name": "OrderAvro",
+  "type":"record",
+  "fields":[
+    {
+      "name":"OrderItems",
+      "type":{
+        "type": "array",
+        "items":{
+          "name":"OrderItem",
+          "type":"record",
+          "fields":[
+            {"name":"quantity", "type":["string", "null"]},
+            {"name":"productId", "type":["string", "null"]}
+          ]
+        }
+      }
+    }
+  ] 
+}

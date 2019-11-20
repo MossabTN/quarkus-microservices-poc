@@ -6,7 +6,7 @@
   <packaging>pom</packaging>
   
   <modules>
-    <module>users-service</module>
+    <module>customer-service</module>
     <module>chat-service</module>
     <module>product-service</module>
     <module>order-service</module>

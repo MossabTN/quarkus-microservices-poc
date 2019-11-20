@@ -1,0 +1,10 @@
+version: '2'
+services:
+    postgresql:
+        image: postgres:11.5
+        ports:
+            - "5432:5432"
+        environment:
+            - POSTGRES_DB=quarkus
+            - POSTGRES_USER=quarkus
+            - POSTGRES_PASSWORD=quarkus

@@ -3,7 +3,7 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <modelVersion>4.0.0</modelVersion>
   <groupId>io.maxilog</groupId>
-  <artifactId>product</artifactId>
+  <artifactId>product-service</artifactId>
   <version>1.0-SNAPSHOT</version>
   <properties>
     <compiler-plugin.version>3.8.1</compiler-plugin.version>
@@ -103,9 +103,49 @@
       <groupId>io.quarkus</groupId>
       <artifactId>quarkus-vertx-web</artifactId>
     </dependency>
+    <dependency>
+      <groupId>io.quarkus</groupId>
+      <artifactId>quarkus-smallrye-reactive-messaging-kafka</artifactId>
+    </dependency>
+    <!--avro dependencies-->
+    <dependency>
+      <groupId>org.apache.avro</groupId>
+      <artifactId>avro</artifactId>
+      <version>1.9.1</version>
+    </dependency>
+    <dependency>
+      <groupId>io.confluent</groupId>
+      <artifactId>kafka-avro-serializer</artifactId>
+      <version>5.1.0</version>
+    </dependency>
+    <dependency>
+      <groupId>org.codehaus.jackson</groupId>
+      <artifactId>jackson-mapper-asl</artifactId>
+      <version>1.9.13</version>
+    </dependency>
+    <!--avro dependencies-->
   </dependencies>
   <build>
     <plugins>
+      <plugin>
+        <groupId>org.apache.avro</groupId>
+        <artifactId>avro-maven-plugin</artifactId>
+        <version>1.9.1</version>
+        <configuration>
+          <stringType>String</stringType>
+        </configuration>
+        <executions>
+          <execution>
+            <phase>generate-sources</phase>
+            <goals>
+              <goal>schema</goal>
+            </goals>
+            <configuration>
+              <sourceDirectory>src/main/resources/avro/</sourceDirectory>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
       <plugin>
         <artifactId>maven-compiler-plugin</artifactId>
         <version>${compiler-plugin.version}</version>
@@ -168,12 +208,6 @@
   <profiles>
     <profile>
       <id>native</id>
-      <properties>
-        <quarkus.package.type>native</quarkus.package.type>
-        <quarkus.native.additional-build-args>-H:ResourceConfigurationFiles=${project.basedir}/resources-config.json</quarkus.native.additional-build-args>
-        <quarkus.native.additional-build-args>-H:ReflectionConfigurationFiles=${project.basedir}/reflection-config.json</quarkus.native.additional-build-args>
-        <quarkus.native.additional-build-args>--initialize-at-run-time=io.vertx.ext.web.handler.sockjs.impl.XhrTransport</quarkus.native.additional-build-args>
-      </properties>
       <activation>
         <property>
           <name>native</name>
@@ -217,6 +251,10 @@
           </plugin>
         </plugins>
       </build>
+      <properties>
+        <quarkus.package.type>native</quarkus.package.type>
+        <quarkus.native.additional-build-args>-H:ResourceConfigurationFiles=${project.basedir}/resources-config.json,-H:ReflectionConfigurationFiles=${project.basedir}/reflection-config.json,--initialize-at-run-time=io.vertx.ext.web.handler.sockjs.impl.XhrTransport</quarkus.native.additional-build-args>
+      </properties>
     </profile>
   </profiles>
 </project>
