@@ -1,2 +1,2 @@
 # quarkus-microservices-poc
-# quarkus-microservices-poc
+![architecture](docs/microservice-poc.png)
