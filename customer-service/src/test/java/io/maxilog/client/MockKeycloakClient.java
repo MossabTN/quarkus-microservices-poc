@@ -24,7 +24,7 @@ public class MockKeycloakClient implements keycloakClient {
 
     @Override
     public List<UserRepresentation> getUsersPageable(int page, int size) {
-        return null;
+        return Collections.singletonList(new UserRepresentation("AAAAAAAAAA","FN","LN","AAAAAAAAAA"));
     }
 
     @Override
@@ -34,12 +34,19 @@ public class MockKeycloakClient implements keycloakClient {
 
     @Override
     public List<UserRepresentation> getUsersByEmail(String email) {
-        return null;
+        return Collections.singletonList(new UserRepresentation("AAAAAAAAAA","FN","LN",email));
+
     }
 
     @Override
     public List<UserRepresentation> getUsersByUsername(String username) {
-        return null;
+        return Collections.singletonList(new UserRepresentation(username,"FN","LN","AAAAAAAAAA"));
+
+    }
+
+    @Override
+    public UserRepresentation getUserById(String id) {
+        return new UserRepresentation("AAAAAAAAAA","FN","LN","AAAAAAAAAA");
     }
 
     @Override

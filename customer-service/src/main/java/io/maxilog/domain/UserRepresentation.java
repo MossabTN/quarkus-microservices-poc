@@ -13,8 +13,8 @@ public class UserRepresentation {
     protected String lastName;
     protected String email;
     protected Map<String, List<String>> attributes;
-    protected Boolean enabled;
-    protected Long createdTimestamp;
+    protected boolean enabled;
+    protected long createdTimestamp;
 
     public UserRepresentation() {
     }
