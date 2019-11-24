@@ -1,8 +1,10 @@
 package io.maxilog.service.dto;
 
+import org.bson.types.ObjectId;
+
 public class NotificationDTO {
 
-    private String id;
+    private ObjectId id;
     private String from;
     private String to;
     private String payload;
@@ -11,7 +13,7 @@ public class NotificationDTO {
     public NotificationDTO() {
     }
 
-    public NotificationDTO(String id, String from, String to, String payload, boolean seen) {
+    public NotificationDTO(ObjectId id, String from, String to, String payload, boolean seen) {
         this.id = id;
         this.from = from;
         this.to = to;
@@ -19,11 +21,11 @@ public class NotificationDTO {
         this.seen = seen;
     }
 
-    public String getId() {
+    public ObjectId getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(ObjectId id) {
         this.id = id;
     }
 

@@ -49,6 +49,13 @@ public class NotificationResource {
         return Response.ok(notificationservice.findMyNotifications(page)).build();
     }
 
+    @GET
+    @Path("/notifications/{id}")
+    public Response findById(@PathParam("id") String id) {
+        LOGGER.debug("REST request to get notification by id: {}", id);
+        return Response.ok().entity(notificationservice.findOne(id)).build();
+    }
+
 
     @POST
     @Path("/notifications")

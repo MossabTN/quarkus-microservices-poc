@@ -1,36 +1,41 @@
 <?xml version="1.0"?>
 <project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <modelVersion>4.0.0</modelVersion>
   <groupId>io.maxilog</groupId>
   <artifactId>chat-and-notification-service</artifactId>
   <version>1.0-SNAPSHOT</version>
+
   <properties>
     <compiler-plugin.version>3.8.1</compiler-plugin.version>
-    <docker-plugin.version>0.28.0</docker-plugin.version>
-    <surefire-plugin.version>2.22.1</surefire-plugin.version>
-    <elasticsearch-maven-plugin.version>6.12</elasticsearch-maven-plugin.version>
-    <maven.compiler.target>1.8</maven.compiler.target>
-    <quarkus.version>1.0.0.CR1</quarkus.version>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <elasticsearch-server.version>7.3.1</elasticsearch-server.version>
+    <maven.compiler.parameters>true</maven.compiler.parameters>
     <maven.compiler.source>1.8</maven.compiler.source>
+    <maven.compiler.target>1.8</maven.compiler.target>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+    <quarkus-plugin.version>1.0.0.CR2</quarkus-plugin.version>
+    <quarkus.platform.artifact-id>quarkus-universe-bom</quarkus.platform.artifact-id>
+    <quarkus.platform.group-id>io.quarkus</quarkus.platform.group-id>
+    <quarkus.platform.version>1.0.0.CR2</quarkus.platform.version>
+    <surefire-plugin.version>2.22.1</surefire-plugin.version>
+    <mapstruct.version>1.3.1.Final</mapstruct.version>
   </properties>
   <dependencyManagement>
     <dependencies>
       <dependency>
-        <groupId>io.quarkus</groupId>
-        <artifactId>quarkus-bom</artifactId>
-        <version>${quarkus.version}</version>
+        <groupId>${quarkus.platform.group-id}</groupId>
+        <artifactId>${quarkus.platform.artifact-id}</artifactId>
+        <version>${quarkus.platform.version}</version>
         <type>pom</type>
         <scope>import</scope>
       </dependency>
     </dependencies>
   </dependencyManagement>
   <dependencies>
+    <!--web-->
     <dependency>
       <groupId>io.quarkus</groupId>
-      <artifactId>quarkus-smallrye-health</artifactId>
+      <artifactId>quarkus-resteasy</artifactId>
     </dependency>
     <dependency>
       <groupId>io.quarkus</groupId>
@@ -38,7 +43,7 @@
     </dependency>
     <dependency>
       <groupId>io.quarkus</groupId>
-      <artifactId>quarkus-oidc</artifactId>
+      <artifactId>quarkus-resteasy-jsonb</artifactId>
     </dependency>
     <dependency>
       <groupId>io.quarkus</groupId>
@@ -46,47 +51,26 @@
     </dependency>
     <dependency>
       <groupId>io.quarkus</groupId>
-      <artifactId>quarkus-mongodb-panache</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>io.quarkus</groupId>
-      <artifactId>quarkus-junit5</artifactId>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>io.rest-assured</groupId>
-      <artifactId>rest-assured</artifactId>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.mapstruct</groupId>
-      <artifactId>mapstruct</artifactId>
-      <version>1.3.1.Final</version>
-    </dependency>
-    <dependency>
-      <groupId>org.mapstruct</groupId>
-      <artifactId>mapstruct-processor</artifactId>
-      <version>1.3.1.Final</version>
-      <scope>provided</scope>
-    </dependency>
-    <dependency>
-      <groupId>io.swagger</groupId>
-      <artifactId>swagger-annotations</artifactId>
-      <version>1.5.22</version>
-    </dependency>
-    <dependency>
-      <groupId>io.quarkus</groupId>
-      <artifactId>quarkus-smallrye-openapi</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>io.quarkus</groupId>
       <artifactId>quarkus-vertx-web</artifactId>
     </dependency>
+    <!--web-->
+    <!--security-->
+    <dependency>
+      <groupId>io.quarkus</groupId>
+      <artifactId>quarkus-oidc</artifactId>
+    </dependency>
+    <!--security-->
+    <!--database-->
+    <dependency>
+      <groupId>io.quarkus</groupId>
+      <artifactId>quarkus-mongodb-panache</artifactId>
+    </dependency>
+    <!--database-->
+    <!--kafka-->
     <dependency>
       <groupId>io.quarkus</groupId>
       <artifactId>quarkus-smallrye-reactive-messaging-kafka</artifactId>
     </dependency>
-    <!--avro dependencies-->
     <dependency>
       <groupId>org.apache.avro</groupId>
       <artifactId>avro</artifactId>
@@ -102,7 +86,54 @@
       <artifactId>jackson-mapper-asl</artifactId>
       <version>1.9.13</version>
     </dependency>
-    <!--avro dependencies-->
+    <!--kafka-->
+    <!--open API-->
+    <dependency>
+      <groupId>io.quarkus</groupId>
+      <artifactId>quarkus-smallrye-openapi</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>io.swagger</groupId>
+      <artifactId>swagger-annotations</artifactId>
+      <version>1.5.22</version>
+    </dependency>
+    <!--open API-->
+    <!--other-->
+    <dependency>
+      <groupId>io.quarkus</groupId>
+      <artifactId>quarkus-smallrye-health</artifactId>
+    </dependency>
+    <!--other-->
+    <!--mapstruct-->
+    <dependency>
+      <groupId>org.mapstruct</groupId>
+      <artifactId>mapstruct</artifactId>
+      <version>${mapstruct.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.mapstruct</groupId>
+      <artifactId>mapstruct-processor</artifactId>
+      <version>${mapstruct.version}</version>
+      <scope>provided</scope>
+    </dependency>
+    <!--mapstruct-->
+    <!--test-->
+    <dependency>
+      <groupId>io.quarkus</groupId>
+      <artifactId>quarkus-junit5</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>io.rest-assured</groupId>
+      <artifactId>rest-assured</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>de.flapdoodle.embed</groupId>
+      <artifactId>de.flapdoodle.embed.mongo</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <!--test-->
   </dependencies>
   <build>
     <plugins>
@@ -139,16 +170,28 @@
         </executions>
       </plugin>
       <plugin>
+        <groupId>io.quarkus</groupId>
+        <artifactId>quarkus-maven-plugin</artifactId>
+        <version>${quarkus-plugin.version}</version>
+        <executions>
+          <execution>
+            <goals>
+              <goal>build</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
         <artifactId>maven-compiler-plugin</artifactId>
         <version>${compiler-plugin.version}</version>
         <configuration>
-          <source>1.8</source>
-          <target>1.8</target>
+          <source>${maven.compiler.source}</source>
+          <target>${maven.compiler.target}</target>
           <annotationProcessorPaths>
             <path>
               <groupId>org.mapstruct</groupId>
               <artifactId>mapstruct-processor</artifactId>
-              <version>1.3.1.Final</version>
+              <version>${mapstruct.version}</version>
             </path>
           </annotationProcessorPaths>
           <parameters>true</parameters>
@@ -163,18 +206,6 @@
           </systemProperties>
         </configuration>
       </plugin>
-      <plugin>
-        <groupId>io.quarkus</groupId>
-        <artifactId>quarkus-maven-plugin</artifactId>
-        <version>${quarkus.version}</version>
-        <executions>
-          <execution>
-            <goals>
-              <goal>build</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
     </plugins>
   </build>
   <profiles>
@@ -187,21 +218,6 @@
       </activation>
       <build>
         <plugins>
-          <plugin>
-            <groupId>io.quarkus</groupId>
-            <artifactId>quarkus-maven-plugin</artifactId>
-            <version>${quarkus.version}</version>
-            <executions>
-              <execution>
-                <goals>
-                  <goal>native-image</goal>
-                </goals>
-                <configuration>
-                  <enableHttpUrlHandler>true</enableHttpUrlHandler>
-                </configuration>
-              </execution>
-            </executions>
-          </plugin>
           <plugin>
             <artifactId>maven-failsafe-plugin</artifactId>
             <version>${surefire-plugin.version}</version>
@@ -223,7 +239,7 @@
       </build>
       <properties>
         <quarkus.package.type>native</quarkus.package.type>
-        <quarkus.native.additional-build-args>-H:ResourceConfigurationFiles=${project.basedir}/resources-config.json,-H:ReflectionConfigurationFiles=${project.basedir}/reflection-config.json,--initialize-at-run-time=io.vertx.ext.web.handler.sockjs.impl.XhrTransport</quarkus.native.additional-build-args>
+        <quarkus.native.additional-build-args>-H:ResourceConfigurationFiles=${project.basedir}/resources-config.json,-H:ReflectionConfigurationFiles=${project.basedir}/reflection-config.json,--initialize-at-run-time=io.vertx.ext.web.handler.sockjs.impl.XhrTransport,--allow-incomplete-classpath</quarkus.native.additional-build-args>
       </properties>
     </profile>
   </profiles>

@@ -27,7 +27,7 @@ public interface NotificationService {
      *
      * @param notification the payload to notify
      */
-    void notify(Notification notification);
+    void notify(NotificationDTO notification);
 
     /**
      * publish.

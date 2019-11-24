@@ -1,7 +1,7 @@
 package io.maxilog.config;
 
 import io.maxilog.service.NotificationService;
-import io.quarkus.oidc.runtime.AccessTokenCredential;
+import io.quarkus.oidc.AccessTokenCredential;
 import io.quarkus.security.identity.IdentityProviderManager;
 import io.quarkus.security.identity.request.TokenAuthenticationRequest;
 import io.quarkus.vertx.http.runtime.security.QuarkusHttpUser;

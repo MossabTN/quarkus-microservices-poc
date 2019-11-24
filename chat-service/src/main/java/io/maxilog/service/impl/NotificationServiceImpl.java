@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import io.maxilog.chat.NotificationKafka;
 import io.maxilog.domain.Notification;
 import io.maxilog.domain.UserHolder;
+import io.maxilog.repository.impl.NotificationRepository;
 import io.maxilog.service.NotificationService;
 import io.maxilog.service.dto.NotificationDTO;
 import io.maxilog.service.mapper.NotificationKafkaMapper;
@@ -36,7 +37,9 @@ public class NotificationServiceImpl implements NotificationService {
     private static final String PREFERRED_USERNAME = "username";
     private Map<String, BridgeEvent> bridgeEvents = new ConcurrentHashMap<>();
     private ObjectMapper objectMapper;
+
     private final EventBus eventBus;
+    private final NotificationRepository notificationRepository;
     private final Emitter<NotificationKafka> kafkaEmitter;
     private final NotificationMapper notificationMapper;
     private final NotificationKafkaMapper notificationKafkaMapper;
@@ -44,11 +47,13 @@ public class NotificationServiceImpl implements NotificationService {
 
     @Inject
     public NotificationServiceImpl(EventBus eventBus,
+                                   NotificationRepository notificationRepository,
                                    @Channel("notification") Emitter<NotificationKafka> kafkaEmitter,
                                    NotificationMapper notificationMapper,
                                    NotificationKafkaMapper notificationKafkaMapper,
                                    UserHolder userHolder) {
         this.eventBus = eventBus;
+        this.notificationRepository = notificationRepository;
         this.kafkaEmitter = kafkaEmitter;
         this.notificationMapper = notificationMapper;
         this.notificationKafkaMapper = notificationKafkaMapper;
@@ -59,20 +64,22 @@ public class NotificationServiceImpl implements NotificationService {
 
     @Override
     public NotificationDTO save(NotificationDTO notificationDTO) {
-        return null;
+        Notification notification = notificationMapper.toEntity(notificationDTO);
+        notificationRepository.persist(notification);
+        return notificationMapper.toDto(notification);
     }
 
     @Override
-    public void notify(Notification notification) {
-        notification.persist();
+    public void notify(NotificationDTO notification) {
+        save(notification);
         if(notification.getTo().equals("ALL")){
             LOG.info("Send notification to all users");
-            eventBus.publish("out", parseToString(notificationKafkaMapper.toDto(notification)));
+            eventBus.publish("out", parseToString(notification));
         }else{
             LOG.info("Send notification to username");
             Optional.ofNullable(this.bridgeEvents.get("username"))
                 .ifPresent(bridgeEvent -> {
-                    bridgeEvent.socket().write(parseToString(notificationKafkaMapper.toDto(notification)));
+                    bridgeEvent.socket().write(parseToString(notification));
                 });
         }
     }
@@ -85,13 +92,13 @@ public class NotificationServiceImpl implements NotificationService {
     @Incoming("input")
     public CompletionStage consumeKafkaNotification(KafkaMessage<String, NotificationKafka> message) {
         LOG.info("receiving notification from kafka");
-        notify(notificationKafkaMapper.toEntity(message.getPayload()));
+        notify(notificationMapper.toDto(notificationKafkaMapper.toEntity(message.getPayload())));
         return message.ack();
     }
 
     @Override
     public List<NotificationDTO> findAll(Page page) {
-        return Notification.findAll(page)
+        return notificationRepository.findAll(page)
                 .stream()
                 .map(notificationMapper::toDto)
                 .collect(Collectors.toList());
@@ -99,12 +106,12 @@ public class NotificationServiceImpl implements NotificationService {
 
     @Override
     public NotificationDTO findOne(String id) {
-        return notificationMapper.toDto((Notification)Notification.findById(new ObjectId(id)));
+        return notificationMapper.toDto(notificationRepository.findById(new ObjectId(id)));
     }
 
     @Override
     public List<NotificationDTO> findMyNotifications(Page page) {
-        return Notification.findAllByTo(userHolder.getUserName(), page)
+        return notificationRepository.findAllByTo(userHolder.getUserName(), page)
                 .stream()
                 .map(notificationMapper::toDto)
                 .collect(Collectors.toList());

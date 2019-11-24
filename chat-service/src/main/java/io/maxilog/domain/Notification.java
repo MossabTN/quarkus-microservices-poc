@@ -2,7 +2,6 @@ package io.maxilog.domain;
 
 import io.quarkus.mongodb.panache.MongoEntity;
 import io.quarkus.mongodb.panache.PanacheMongoEntity;
-import io.quarkus.mongodb.panache.PanacheMongoEntityBase;
 import io.quarkus.panache.common.Page;
 import io.quarkus.panache.common.Sort;
 import org.bson.types.ObjectId;
@@ -31,12 +30,12 @@ public class Notification extends PanacheMongoEntity {
         this.seen = seen;
     }
 
-    public String getId() {
-        return id==null?null:id.toString();
+    public ObjectId getId() {
+        return id;
     }
 
-    public void setId(String id) {
-        this.id = id==null?null:new ObjectId(id);
+    public void setId(ObjectId id) {
+        this.id = id;
     }
 
     public String getFrom() {
@@ -71,19 +70,7 @@ public class Notification extends PanacheMongoEntity {
         this.seen = seen;
     }
 
-    /*QUERY*/
-
-    public static List<Notification> findAllByTo(String username, Page page){
-        return find("to", Sort.descending("id"), username).page(page).list();
-    }
-
-    public static List<Notification> findAll(Page page){
-        return findAll(Sort.descending("id")).page(page).list();
-    }
-
-    /*QUERY*/
-
-    @Override
+    /*@Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof Notification)) return false;
@@ -94,7 +81,7 @@ public class Notification extends PanacheMongoEntity {
     @Override
     public int hashCode() {
         return Objects.hash(getId());
-    }
+    }*/
 
     @Override
     public String toString() {
