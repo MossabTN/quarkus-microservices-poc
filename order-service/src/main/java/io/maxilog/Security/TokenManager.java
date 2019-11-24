@@ -1,11 +1,10 @@
 package io.maxilog.Security;
 
 import org.eclipse.microprofile.config.inject.ConfigProperty;
-import org.jboss.resteasy.client.jaxrs.ResteasyClient;
-import org.jboss.resteasy.client.jaxrs.ResteasyWebTarget;
-import org.jboss.resteasy.client.jaxrs.internal.ResteasyClientBuilderImpl;
+import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
+import org.eclipse.microprofile.rest.client.inject.RestClient;
 
-import javax.annotation.PostConstruct;
+import javax.inject.Inject;
 import javax.inject.Singleton;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Form;
@@ -15,11 +14,9 @@ import java.time.LocalDateTime;
 @Singleton
 public class TokenManager {
 
-    private ResteasyClient client;
     private AccessTokenResponse currentToken;
     private long expirationTime;
     private long minTokenValidity = 30L;
-    private TokenService tokenService;
 
     @ConfigProperty(name = "quarkus.oidc.auth-server-url")
     String url;
@@ -30,17 +27,9 @@ public class TokenManager {
     @ConfigProperty(name = "quarkus.oidc.credentials.secret")
     String clientSecret;
 
-
-    @PostConstruct
-    public void init() {
-        client = new ResteasyClientBuilderImpl().disableTrustManager().build();
-        ResteasyWebTarget target = client.target(url);
-
-        tokenService = target
-                .proxyBuilder(TokenService.class)
-                .classloader(TokenService.class.getClassLoader())
-                .build();
-    }
+    @Inject
+    @RestClient
+    private TokenService tokenService;
 
     public synchronized AccessTokenResponse getAccessToken() {
         if (currentToken == null) {
@@ -83,6 +72,7 @@ public class TokenManager {
     }
 
 
+    @RegisterRestClient(configKey = "keycloak-token")
     @Produces({"application/json"})
     @Consumes({"application/x-www-form-urlencoded"})
     private interface TokenService {

@@ -46,10 +46,12 @@ public class OrderServiceImpl implements OrderService {
     public OrderDTO save(OrderDTO orderDTO) {
         LOG.debug("Request to save orders : {}", orderDTO);
         Order order = orderRepository.save(orderMapper.toEntity(orderDTO));
-        orderEmitter.send(new OrderAvro(order.getOrderItems()
-                                        .stream()
-                                        .map(orderItem -> new OrderItem(orderItem.getQuantity().toString(),orderItem.getProductId().toString()))
-                                        .collect(Collectors.toList())));
+        if(order.getOrderItems() != null && !order.getOrderItems().isEmpty()){
+            orderEmitter.send(new OrderAvro(order.getOrderItems()
+                    .stream()
+                    .map(orderItem -> new OrderItem(orderItem.getQuantity().toString(),orderItem.getProductId().toString()))
+                    .collect(Collectors.toList())));
+        }
         return orderMapper.toDto(order);
     }
 

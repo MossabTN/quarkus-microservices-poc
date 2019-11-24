@@ -4,9 +4,12 @@ import com.google.common.collect.Iterators;
 import io.maxilog.domain.Order;
 import io.maxilog.domain.enumeration.OrderStatus;
 import io.maxilog.repository.OrderRepository;
+import io.maxilog.service.mapper.OrderMapper;
+import io.maxilog.service.mapper.impl.OrderMapperImpl;
 import io.quarkus.test.common.QuarkusTestResource;
 import io.quarkus.test.h2.H2DatabaseTestResource;
 import io.quarkus.test.junit.QuarkusTest;
+import org.hamcrest.number.BigDecimalCloseTo;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -19,8 +22,7 @@ import java.util.stream.StreamSupport;
 
 import static io.restassured.RestAssured.given;
 import static io.restassured.http.ContentType.JSON;
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.CoreMatchers.hasItem;
+import static org.hamcrest.CoreMatchers.*;
 
 @QuarkusTest
 @QuarkusTestResource(H2DatabaseTestResource.class)
@@ -28,13 +30,18 @@ class OrderResourceTest {
 
 
     private static final BigDecimal DEFAULT_TOTAL_PRICE = BigDecimal.valueOf(100);
-    private static final BigDecimal UPDATED_TOTAL_PRICE = BigDecimal.valueOf(150);
+    private static final BigDecimal UPDATED_TOTAL_PRICE = BigDecimal.valueOf(150.0);
 
     private static final OrderStatus DEFAULT_STATUS = OrderStatus.SHIPPED;
     private static final OrderStatus UPDATED_STATUS = OrderStatus.DELIVERED;
 
+    private static final String DEFAULT_CUSTOMER = "AAAAAAAAAAAAAAA";
+
     @Inject
     OrderRepository orderRepository;
+
+    @Inject
+    OrderMapper orderMapper;
 
 
     private Order order;
@@ -47,7 +54,7 @@ class OrderResourceTest {
 
 
     public static Order createEntity() {
-        return new Order(DEFAULT_TOTAL_PRICE, DEFAULT_STATUS);
+        return new Order(DEFAULT_TOTAL_PRICE, DEFAULT_STATUS, DEFAULT_CUSTOMER);
     }
 
     @Test
@@ -57,7 +64,7 @@ class OrderResourceTest {
 
         given()
                 .contentType(JSON)
-                .body(this.order)
+                .body(orderMapper.toDto(this.order))
                 .when().post("/api/orders")
                 .then()
                 .statusCode(201);
@@ -66,7 +73,7 @@ class OrderResourceTest {
         List<Order> orderList = orderRepository.findAll();
         Assertions.assertEquals(orderList.size(), databaseSizeBeforeCreate + 1);
         Order order = orderList.get(orderList.size() - 1);
-        Assertions.assertEquals(order.getTotalPrice(), DEFAULT_TOTAL_PRICE);
+        Assertions.assertEquals(order.getTotalPrice().floatValue(), DEFAULT_TOTAL_PRICE.floatValue());
     }
 
     @Test
@@ -97,7 +104,7 @@ class OrderResourceTest {
                 .then()
                 .statusCode(200)
                 .contentType(JSON)
-                .body("content[0].total_price", equalTo(DEFAULT_TOTAL_PRICE));
+                .body("content[0].totalPrice", equalTo(DEFAULT_TOTAL_PRICE.floatValue()));
     }
 
     @Test
@@ -110,7 +117,7 @@ class OrderResourceTest {
                 .then()
                 .statusCode(200)
                 .contentType(JSON)
-                .body("total_price", equalTo(DEFAULT_TOTAL_PRICE));
+                .body("totalPrice", equalTo(DEFAULT_TOTAL_PRICE.floatValue()));
 
     }
 
@@ -135,12 +142,12 @@ class OrderResourceTest {
 
         given()
                 .contentType(JSON)
-                .body(order)
+                .body(orderMapper.toDto(order))
                 .when().put("/api/orders")
                 .then()
                 .statusCode(200)
                 .contentType(JSON)
-                .body("total_price", equalTo(UPDATED_TOTAL_PRICE));
+                .body("totalPrice", equalTo(UPDATED_TOTAL_PRICE.floatValue()));
 
         // Validate the Order in the database
         List<Order> orderList = orderRepository.findAll();
