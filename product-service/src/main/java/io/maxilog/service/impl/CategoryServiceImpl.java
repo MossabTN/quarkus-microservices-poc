@@ -17,6 +17,7 @@ import javax.transaction.Transactional;
 import java.util.List;
 
 @Singleton
+@Transactional
 public class CategoryServiceImpl implements CategoryService {
 
     private static final Logger LOG = LoggerFactory.getLogger(CategoryServiceImpl.class);
@@ -47,7 +48,6 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    @Transactional
     public List<CategoryDTO> findAllByName(String name) {
         LOG.debug("Request to get all Categorys by name");
         return categoryMapper.toDto(categoryRepository.findAllByName(name));

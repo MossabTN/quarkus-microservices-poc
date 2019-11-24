@@ -8,6 +8,7 @@ import io.maxilog.web.rest.Util.ResponseUtil;
 import io.maxilog.web.rest.errors.BadRequestException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Page;
 
 import javax.inject.Inject;
 import javax.ws.rs.*;
@@ -42,9 +43,9 @@ public class ProductResource {
 
     @GET
     @Path("/products/search")
-    public List<ProductDTO> findAllByProductName(@QueryParam("name") String fullName) {
+    public Page<ProductDTO> findAllByProductName(@QueryParam("name") String fullName, @BeanParam PageableImpl pageable) {
         LOGGER.debug("REST request to get all Products by fullName {}", fullName);
-        return productService.findAllByName(fullName);
+        return productService.findAllByName(fullName, pageable);
     }
 
     @GET

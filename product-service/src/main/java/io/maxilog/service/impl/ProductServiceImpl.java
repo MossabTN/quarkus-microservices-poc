@@ -1,15 +1,14 @@
 package io.maxilog.service.impl;
 
-import io.maxilog.order.OrderAvro;
 import io.maxilog.domain.Product;
 import io.maxilog.domain.UserHolder;
+import io.maxilog.order.OrderAvro;
 import io.maxilog.repository.ProductRepository;
 import io.maxilog.service.ProductService;
 import io.maxilog.service.dto.ProductDTO;
 import io.maxilog.service.mapper.ProductMapper;
 import io.smallrye.reactive.messaging.kafka.KafkaMessage;
 import org.eclipse.microprofile.reactive.messaging.Incoming;
-import org.hibernate.search.mapper.orm.Search;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -19,26 +18,24 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
-import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
-import java.util.stream.Collectors;
 
 @Singleton
+@Transactional
 public class ProductServiceImpl implements ProductService {
 
     private static final Logger LOG = LoggerFactory.getLogger(ProductServiceImpl.class);
 
     private final ProductRepository productRepository;
     private final ProductMapper productMapper;
-    private final EntityManager entityManager;
     private final UserHolder userHolder;
 
     @Inject
-    public ProductServiceImpl(ProductRepository productRepository, ProductMapper productMapper, EntityManager entityManager, UserHolder userHolder) {
+    public ProductServiceImpl(ProductRepository productRepository,
+                              ProductMapper productMapper, UserHolder userHolder) {
         this.productRepository = productRepository;
         this.productMapper = productMapper;
-        this.entityManager = entityManager;
         this.userHolder = userHolder;
     }
 
@@ -58,22 +55,10 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    @Transactional
-    public List<ProductDTO> findAllByName(String name) {
+    public Page<ProductDTO> findAllByName(String name, Pageable pageable) {
         LOG.debug("Request to get all Products by name");
-        return Search.session(entityManager)
-                .search(Product.class)
-                .predicate(f ->
-                        name == null || name.trim().isEmpty() ?
-                                f.matchAll() :
-                                f.simpleQueryString()
-                                        .fields("name").matching(name)
-                )
-                .sort(f -> f.field("name_sort"))
-                .fetchAllHits()
-                .stream()
-                .map(productMapper::toDto)
-                .collect(Collectors.toList());
+        return productRepository.findAllByNameContaining(name, pageable)
+                .map(productMapper::toDto);
     }
 
     @Incoming("input")

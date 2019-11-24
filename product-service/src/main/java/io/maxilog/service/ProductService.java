@@ -34,7 +34,7 @@ public interface ProductService {
      * @param name the filter information
      * @return the list of entities
      */
-    List<ProductDTO> findAllByName(String name);
+    Page<ProductDTO> findAllByName(String name, Pageable pageable);
 
     /**
      * Get the "id" user.

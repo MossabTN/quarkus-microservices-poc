@@ -4,6 +4,7 @@ import com.google.common.collect.Iterators;
 import io.maxilog.domain.Category;
 import io.maxilog.domain.Product;
 import io.maxilog.domain.enumeration.ProductStatus;
+import io.maxilog.repository.CategoryRepository;
 import io.maxilog.repository.ProductRepository;
 import io.quarkus.test.common.QuarkusTestResource;
 import io.quarkus.test.h2.H2DatabaseTestResource;
@@ -43,11 +44,14 @@ class ProductResourceTest {
     private static final ProductStatus DEFAULT_STATUS = ProductStatus.AVAILABLE;
     private static final ProductStatus UPDATED_STATUS = ProductStatus.DISCONTINUED;
 
-    private static final Category DEFAULT_CATEGORY = new Category("AAAAAAAAAA");
-    private static final Category UPDATED_CATEGORY = new Category("BBBBBBBBBB");
+    private static Category DEFAULT_CATEGORY = new Category("AAAAAAAAAA");
+    private static Category UPDATED_CATEGORY = new Category("BBBBBBBBBB");
 
     @Inject
     ProductRepository productRepository;
+
+    @Inject
+    CategoryRepository categoryRepository;
 
 
     private Product product;
@@ -55,6 +59,7 @@ class ProductResourceTest {
     @BeforeEach
     void setUp(){
         productRepository.deleteAll();
+        DEFAULT_CATEGORY = categoryRepository.save(DEFAULT_CATEGORY);
         product = createEntity();
     }
 
@@ -167,7 +172,7 @@ class ProductResourceTest {
                 .then()
                 .statusCode(200)
                 .contentType(JSON)
-                .body("email", equalTo(DEFAULT_NAME));
+                .body("name", equalTo(DEFAULT_NAME));
 
         // Validate the Product in the database
         List<Product> productList = productRepository.findAll();

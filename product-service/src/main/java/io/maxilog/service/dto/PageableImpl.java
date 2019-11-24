@@ -3,6 +3,7 @@ package io.maxilog.service.dto;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 
+import javax.ws.rs.DefaultValue;
 import javax.ws.rs.QueryParam;
 import java.util.Arrays;
 import java.util.List;
@@ -11,8 +12,12 @@ import java.util.Optional;
 public class PageableImpl implements Pageable {
 
     @QueryParam("page")
+    @DefaultValue("0")
     private int page;
+
+    @DefaultValue("10")
     @QueryParam("size")
+
     private int size;
     @QueryParam("sort")
     private String sort;
@@ -33,7 +38,7 @@ public class PageableImpl implements Pageable {
     }
 
     public int getPageSize() {
-        return size==0?10:size;
+        return size;
     }
 
     @Override
@@ -61,7 +66,7 @@ public class PageableImpl implements Pageable {
             if(!sortList.isEmpty())
                 return new Sort(sortList.size()>1? Sort.Direction.fromOptionalString(sortList.get(1)).orElse(Sort.DEFAULT_DIRECTION):Sort.DEFAULT_DIRECTION, sortList.get(0));
         }
-        return null;
+        return Sort.unsorted();
     }
 
     @Override

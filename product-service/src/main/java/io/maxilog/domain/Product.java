@@ -1,7 +1,7 @@
 package io.maxilog.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.maxilog.domain.enumeration.ProductStatus;
-import org.hibernate.search.mapper.pojo.mapping.definition.annotation.Indexed;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -11,7 +11,6 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "products")
-@Indexed
 @Cacheable
 public class Product implements Serializable {
 
@@ -41,7 +40,7 @@ public class Product implements Serializable {
     @Column(name = "status", nullable = false)
     private ProductStatus status;
 
-    @ManyToOne
+    @ManyToOne()
     private Category category;
 
     public Product() { }

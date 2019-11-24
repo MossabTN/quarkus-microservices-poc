@@ -1,9 +1,5 @@
 package io.maxilog.service.dto;
 
-import org.hibernate.search.mapper.pojo.mapping.definition.annotation.Indexed;
-
-import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.Objects;
 
