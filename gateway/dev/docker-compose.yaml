@@ -14,8 +14,8 @@ services:
       POSTGRES_DB:       kong
       POSTGRES_USER:     kong
       POSTGRES_PASSWORD: kong
-    networks:
-      - kong-net
+#    networks:
+#      - kong-net
 
   kong-migration:
     image: kong:1.4.0-oidc
@@ -25,29 +25,30 @@ services:
       - kong-database
     environment:
       KONG_DATABASE: postgres
-      KONG_PG_HOST: kong-database
+      KONG_PG_HOST: localhost
+      KONG_PG_PORT: 15432
       KONG_PG_DATABASE: kong
       KONG_PG_USER: kong
       KONG_PG_PASSWORD: kong
-    networks:
-      - kong-net
-    links:
-      - kong-database
+    network_mode: host
+#    networks:
+#      - kong-net
+#    links:
+#      - kong-database
     restart: on-failure
 
   kong-config:
     build:
       dockerfile: Dockerfile
-      context: ./config
+      context: config
     container_name: kong-config
     depends_on:
       - kong
     environment:
       KONG_DATABASE: postgres
-    networks:
-      - kong-net
-    links:
-      - kong-database
+    network_mode: host
+#    networks:
+#      - kong-net
     restart: on-failure
 
   kong:
@@ -57,8 +58,9 @@ services:
     depends_on:
       - kong-migration
       - kong-database
-    networks:
-      - kong-net
+    network_mode: host
+#    networks:
+#      - kong-net
     ports:
       - "8000:8000"
       - "8001:8001"
@@ -66,8 +68,8 @@ services:
       - "8444:8444"
     environment:
       KONG_DATABASE:         postgres
-      KONG_PG_HOST:          kong-database
-      KONG_PG_PORT:          5432
+      KONG_PG_HOST:          localhost
+      KONG_PG_PORT:          15432
       KONG_PG_DATABASE:      kong
       KONG_PG_USER:          kong
       KONG_PG_PASSWORD:      kong
@@ -85,13 +87,15 @@ services:
       - kong-database
     volumes:
       - ./config/:/tmp/config/
-    networks:
-      - kong-net
+    network_mode: host
+#    networks:
+#      - kong-net
     ports:
       - "1337:1337"
     environment:
       DB_ADAPTER: postgres
-      DB_HOST: kong-database
+      DB_HOST: localhost
+      DB_PORT: 15432
       DB_DATABASE: konga
       DB_USER: kong
       DB_PASSWORD: kong

@@ -21,7 +21,7 @@ public class OAuth2InterceptedConfiguration extends DefaultClientHeadersFactoryI
     public MultivaluedMap<String, String> update(MultivaluedMap<String, String> multivaluedMap, MultivaluedMap<String, String> multivaluedMap1) {
 
         MultivaluedMap<String, String> propagatedHeaders = super.update(multivaluedMap, multivaluedMap1);
-        if (!propagatedHeaders.containsKey("Authorization")) {
+        if (!multivaluedMap1.containsKey("Authorization")) {
             propagatedHeaders.put("Authorization", Collections.singletonList("Bearer "+tokenManager.getAccessToken().getToken()));
         }
         return propagatedHeaders;

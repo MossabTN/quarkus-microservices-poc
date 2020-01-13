@@ -1,51 +1,41 @@
 {
   "createdUser": null,
   "updatedUser": null,
-  "id": 8,
-  "name": "kong-config",
+  "id": 1,
+  "name": "final",
   "kong_node_name": "kong",
   "kong_node_url": "http://kong:8001",
   "kong_version": "1.4.0",
   "data": {
     "services": [
       {
-        "host": "localhost",
-        "created_at": 1578839876,
+        "host": "192.168.112.1",
+        "created_at": 1578915493,
         "connect_timeout": 60000,
         "id": "c66db8e9-8b31-4476-93d9-8fd1b2d4a273",
         "protocol": "http",
         "name": "customer",
         "read_timeout": 60000,
         "port": 8081,
-        "path": null,
-        "updated_at": 1578840493,
+        "path": "/",
+        "updated_at": 1578927608,
         "retries": 5,
         "write_timeout": 60000,
         "tags": null,
         "client_certificate": null,
-        "extras": {
-          "id": 1,
-          "service_id": "c66db8e9-8b31-4476-93d9-8fd1b2d4a273",
-          "kong_node_id": "1",
-          "description": null,
-          "tags": null,
-          "createdAt": "2020-01-12T14:37:56.000Z",
-          "updatedAt": "2020-01-12T14:37:56.000Z",
-          "createdUser": null,
-          "updatedUser": null
-        }
+        "extras": {}
       },
       {
         "host": "localhost",
-        "created_at": 1578839876,
+        "created_at": 1578915494,
         "connect_timeout": 60000,
         "id": "c66db8e9-8b31-4476-93d9-8fd1b2d4a274",
         "protocol": "http",
         "name": "chat-and-notification",
         "read_timeout": 60000,
         "port": 8082,
-        "path": null,
-        "updated_at": 1578840493,
+        "path": "/chat-and-notification",
+        "updated_at": 1578917926,
         "retries": 5,
         "write_timeout": 60000,
         "tags": null,
@@ -53,16 +43,16 @@
         "extras": {}
       },
       {
-        "host": "localhost",
-        "created_at": 1578839876,
+        "host": "192.168.112.1",
+        "created_at": 1578915494,
         "connect_timeout": 60000,
         "id": "c66db8e9-8b31-4476-93d9-8fd1b2d4a275",
         "protocol": "http",
         "name": "product",
         "read_timeout": 60000,
         "port": 8083,
-        "path": null,
-        "updated_at": 1578840493,
+        "path": "/",
+        "updated_at": 1578927595,
         "retries": 5,
         "write_timeout": 60000,
         "tags": null,
@@ -71,15 +61,15 @@
       },
       {
         "host": "localhost",
-        "created_at": 1578839876,
+        "created_at": 1578915494,
         "connect_timeout": 60000,
         "id": "c66db8e9-8b31-4476-93d9-8fd1b2d4a276",
         "protocol": "http",
         "name": "order",
         "read_timeout": 60000,
         "port": 8084,
-        "path": null,
-        "updated_at": 1578840493,
+        "path": "/order",
+        "updated_at": 1578917955,
         "retries": 5,
         "write_timeout": 60000,
         "tags": null,
@@ -89,16 +79,43 @@
     ],
     "routes": [
       {
-        "id": "94a5913d-2c04-4511-841d-a4806b2f1ecd",
+        "id": "94a5913d-2c04-4511-841d-a4806b2f1ec1",
         "tags": null,
-        "updated_at": 1578840684,
+        "updated_at": 1578927730,
         "destinations": null,
         "headers": null,
         "protocols": [
           "http",
           "https"
         ],
-        "created_at": 1578839897,
+        "created_at": 1578915631,
+        "snis": null,
+        "service": {
+          "id": "c66db8e9-8b31-4476-93d9-8fd1b2d4a276"
+        },
+        "name": "default-order",
+        "preserve_host": false,
+        "regex_priority": 0,
+        "strip_path": true,
+        "sources": null,
+        "paths": [
+          "/order/*"
+        ],
+        "https_redirect_status_code": 426,
+        "hosts": [],
+        "methods": []
+      },
+      {
+        "id": "94a5913d-2c04-4511-841d-a4806b2f1ecd",
+        "tags": null,
+        "updated_at": 1578927626,
+        "destinations": null,
+        "headers": null,
+        "protocols": [
+          "http",
+          "https"
+        ],
+        "created_at": 1578915494,
         "snis": null,
         "service": {
           "id": "c66db8e9-8b31-4476-93d9-8fd1b2d4a273"
@@ -109,23 +126,23 @@
         "strip_path": true,
         "sources": null,
         "paths": [
-          "/*"
+          "/customer/*"
         ],
         "https_redirect_status_code": 426,
-        "hosts": null,
-        "methods": null
+        "hosts": [],
+        "methods": []
       },
       {
         "id": "94a5913d-2c04-4511-841d-a4806b2f1ece",
         "tags": null,
-        "updated_at": 1578840684,
+        "updated_at": 1578927714,
         "destinations": null,
         "headers": null,
         "protocols": [
           "http",
           "https"
         ],
-        "created_at": 1578839897,
+        "created_at": 1578915494,
         "snis": null,
         "service": {
           "id": "c66db8e9-8b31-4476-93d9-8fd1b2d4a274"
@@ -136,23 +153,23 @@
         "strip_path": true,
         "sources": null,
         "paths": [
-          "/*"
+          "/notification/*"
         ],
         "https_redirect_status_code": 426,
-        "hosts": null,
-        "methods": null
+        "hosts": [],
+        "methods": []
       },
       {
         "id": "94a5913d-2c04-4511-841d-a4806b2f1ecf",
         "tags": null,
-        "updated_at": 1578840684,
+        "updated_at": 1578927647,
         "destinations": null,
         "headers": null,
         "protocols": [
           "http",
           "https"
         ],
-        "created_at": 1578839897,
+        "created_at": 1578915494,
         "snis": null,
         "service": {
           "id": "c66db8e9-8b31-4476-93d9-8fd1b2d4a275"
@@ -163,34 +180,7 @@
         "strip_path": true,
         "sources": null,
         "paths": [
-          "/*"
-        ],
-        "https_redirect_status_code": 426,
-        "hosts": null,
-        "methods": null
-      },
-      {
-        "id": "94a5913d-2c04-4511-841d-a4806b2f1ec1",
-        "tags": null,
-        "updated_at": 1578840707,
-        "destinations": null,
-        "headers": null,
-        "protocols": [
-          "http",
-          "https"
-        ],
-        "created_at": 1578839897,
-        "snis": null,
-        "service": {
-          "id": "c66db8e9-8b31-4476-93d9-8fd1b2d4a276"
-        },
-        "name": "deafult-order",
-        "preserve_host": false,
-        "regex_priority": 0,
-        "strip_path": true,
-        "sources": null,
-        "paths": [
-          "/*"
+          "/product/*"
         ],
         "https_redirect_status_code": 426,
         "hosts": [],
@@ -200,27 +190,27 @@
     "consumers": [],
     "plugins": [
       {
-        "created_at": 1570716248,
+        "created_at": 1578915493,
         "config": {
           "response_type": "code",
-          "introspection_endpoint": "http://localhost:8180/auth/realms/local/protocol/openid-connect/token/introspect",
+          "introspection_endpoint": "http://keycloak:8180/auth/realms/local/protocol/openid-connect/token/introspect",
           "filters": null,
           "bearer_only": "yes",
           "ssl_verify": "no",
           "session_secret": null,
           "introspection_endpoint_auth_method": null,
-          "realm": "local",
+          "realm": "kong",
           "redirect_after_logout_uri": "/",
           "scope": "openid",
           "token_endpoint_auth_method": "client_secret_post",
           "logout_path": "/logout",
-          "client_id": "back",
-          "client_secret": "back",
-          "discovery": "http://localhost:8180/auth/realms/master/.well-known/openid-configuration",
+          "client_id": "kong",
+          "client_secret": "06278770-d0cc-4380-9bca-2b686992f66b",
+          "discovery": "http://keycloak:8180/auth/realms/master/.well-known/openid-configuration",
           "recovery_page_path": null,
           "redirect_uri_path": null
         },
-        "id": "c6a00c1a-b83a-4323-8aab-32da64ce79bb",
+        "id": "2f76ee98-a758-4a46-aa3d-a200aa5cbff2",
         "service": null,
         "name": "oidc",
         "protocols": [
@@ -229,7 +219,7 @@
           "http",
           "https"
         ],
-        "enabled": true,
+        "enabled": false,
         "run_on": "first",
         "consumer": null,
         "route": null,
@@ -241,6 +231,6 @@
     "certificates": [],
     "snis": []
   },
-  "createdAt": "2020-01-12T14:52:48.000Z",
-  "updatedAt": "2020-01-12T14:52:48.000Z"
+  "createdAt": "2020-01-13T15:03:59.000Z",
+  "updatedAt": "2020-01-13T15:03:59.000Z"
 }

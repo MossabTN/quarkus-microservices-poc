@@ -445,7 +445,7 @@
     "credentials" : [ ],
     "disableableCredentialTypes" : [ ],
     "requiredActions" : [ ],
-    "realmRoles" : [ "uma_authorization", "offline_access" ],
+    "realmRoles" : [ "uma_authorization", "offline_access", "ROLE_MANAGE_REALM" ],
     "clientRoles" : {
       "account" : [ "manage-account", "view-profile" ]
     },
@@ -558,7 +558,7 @@
       "surrogateAuthRequired": false,
       "enabled": true,
       "clientAuthenticatorType": "client-secret",
-      "secret": "**********",
+      "secret": "back",
       "redirectUris": [
         "http://localhost:8080/*",
         "http://localhost:4200/*"
@@ -643,7 +643,6 @@
       ],
       "defaultClientScopes": [
         "web-origins",
-        "realm_manager",
         "role_list",
         "profile",
         "roles",

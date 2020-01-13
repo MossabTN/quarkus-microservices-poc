@@ -1,0 +1,9 @@
+module.exports = [
+    {
+        "name": "kong",
+        "kong_admin_url": "http://localhost:8001",
+        "health_checks": false,
+        "type": "default",
+        "active":true,
+    }
+]

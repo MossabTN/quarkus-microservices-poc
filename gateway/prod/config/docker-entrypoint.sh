@@ -28,7 +28,7 @@ curl -X POST http://kong:8001/routes \
         },
         "name": "default-customer",
         "paths": [
-          "/*"
+          "/customer/*"
         ]
     }'
 #Service Customer
@@ -52,7 +52,7 @@ curl -X POST http://kong:8001/routes \
         },
         "name": "default-chat-and-notification",
         "paths": [
-          "/*"
+          "/notification/*"
         ]
     }'
 #Service Chat
@@ -76,7 +76,7 @@ curl -X POST http://kong:8001/routes \
         },
         "name": "default-product",
         "paths": [
-          "/*"
+          "/product/*"
         ]
     }'
 #Service Product
@@ -100,7 +100,7 @@ curl -X POST http://kong:8001/routes \
         },
         "name": "default-order",
         "paths": [
-          "/*"
+          "/order/*"
         ]
     }'
 #Service Order
