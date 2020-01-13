@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-#Plugin OIDC
+#Plugins OIDC & Cors
 curl -i -s -X POST http://localhost:8001/plugins \
     -d name=oidc \
     -d config.client_id=back \
@@ -8,7 +8,10 @@ curl -i -s -X POST http://localhost:8001/plugins \
     -d config.realm=local \
     -d config.introspection_endpoint=http://localhost:8180/auth/realms/local/protocol/openid-connect/token/introspect \
     -d config.discovery=http://localhost:8180/auth/realms/master/.well-known/openid-configuration
-#Plugin OIDC
+
+curl -i -s -X POST http://localhost:8001/plugins \
+    -d name=cors
+#Plugins OIDC & Cors
 
 #Service Customer
 curl -i -s -X POST http://localhost:8001/services \

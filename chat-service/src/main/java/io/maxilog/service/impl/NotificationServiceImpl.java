@@ -92,7 +92,8 @@ public class NotificationServiceImpl implements NotificationService {
     @Incoming("input")
     public CompletionStage consumeKafkaNotification(KafkaMessage<String, NotificationKafka> message) {
         LOG.info("receiving notification from kafka");
-        notify(notificationMapper.toDto(notificationKafkaMapper.toEntity(message.getPayload())));
+        //notify(notificationMapper.toDto(notificationKafkaMapper.toEntity(message.getPayload())));
+        System.out.println(notificationMapper.toDto(notificationKafkaMapper.toEntity(message.getPayload())));
         return message.ack();
     }
 

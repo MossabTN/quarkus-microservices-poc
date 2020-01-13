@@ -20,6 +20,7 @@ services:
   kong-migration:
     image: kong:1.4.0-oidc
     command: "kong migrations bootstrap"
+    #command: "kong migrations up"
     container_name: kong-migration
     depends_on:
       - kong-database

@@ -1,5 +1,5 @@
 import {environment} from "../../../environments";
 
 export const UserConfig = {
-    api: environment.apis.users+'/api/users/'
+    api: environment.apis.customer+'/api/users/'
 };

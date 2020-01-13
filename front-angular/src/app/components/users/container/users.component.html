@@ -6,13 +6,18 @@
   </div>
   <div class="row">
     <clr-datagrid class="col-xs">
+      <clr-dg-column>ID</clr-dg-column>
       <clr-dg-column>UserName</clr-dg-column>
+      <clr-dg-column>Email</clr-dg-column>
+      <clr-dg-column>First Name</clr-dg-column>
+      <clr-dg-column>Last Name</clr-dg-column>
 
       <clr-dg-row *clrDgItems="let user of users$ | async">
-
-        <clr-dg-cell>
-          {{ user?.userName }}
-        </clr-dg-cell>
+        <clr-dg-cell>{{ user?.id }}</clr-dg-cell>
+        <clr-dg-cell>{{ user?.username }}</clr-dg-cell>
+        <clr-dg-cell>{{ user?.email }}</clr-dg-cell>
+        <clr-dg-cell>{{ user?.firstName }}</clr-dg-cell>
+        <clr-dg-cell>{{ user?.lastName }}</clr-dg-cell>
       </clr-dg-row>
     </clr-datagrid>
   </div>

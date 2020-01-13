@@ -10,6 +10,7 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.Form;
 import javax.ws.rs.core.MultivaluedMap;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 
 @Singleton
 public class TokenManager {
@@ -45,10 +46,10 @@ public class TokenManager {
                 .param("grant_type", "client_credentials")
                 .param("client_id", clientId)
                 .param("client_secret", clientSecret);
-        int requestTime = LocalDateTime.now().getSecond();
+        long requestTime =  LocalDateTime.now().atZone(ZoneId.systemDefault()).toEpochSecond();
         synchronized(TokenManager.class) {
             currentToken = tokenService.grantToken(form.asMap());
-            expirationTime = (long)requestTime + currentToken.getExpiresIn();
+            expirationTime = requestTime + currentToken.getExpiresIn();
         }
         return currentToken;
     }
@@ -58,9 +59,9 @@ public class TokenManager {
                 .param("grant_type", "refresh_token")
                 .param("refresh_token", currentToken.getRefreshToken());
         try {
-            int requestTime =  LocalDateTime.now().getSecond();
+            long requestTime =  LocalDateTime.now().atZone(ZoneId.systemDefault()).toEpochSecond();
             currentToken = tokenService.refreshToken(form.asMap());
-            expirationTime = (long)requestTime + currentToken.getExpiresIn();
+            expirationTime = requestTime + currentToken.getExpiresIn();
             return currentToken;
         } catch (BadRequestException e) {
             return grantToken();
@@ -68,14 +69,14 @@ public class TokenManager {
     }
 
     private synchronized boolean tokenExpired() {
-        return  LocalDateTime.now().getSecond() + minTokenValidity >= expirationTime;
+        return  LocalDateTime.now().atZone(ZoneId.systemDefault()).toEpochSecond() + minTokenValidity >= expirationTime;
     }
 
 
     @RegisterRestClient(configKey = "keycloak-token")
     @Produces({"application/json"})
     @Consumes({"application/x-www-form-urlencoded"})
-    private interface TokenService {
+    public interface TokenService {
         @POST
         @Path("/protocol/openid-connect/token")
         AccessTokenResponse grantToken(MultivaluedMap<String, String> var2);

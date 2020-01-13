@@ -1,5 +1,6 @@
 package io.maxilog.service.impl;
 
+import io.maxilog.chat.NotificationKafka;
 import io.maxilog.client.keycloakClient;
 import io.maxilog.domain.UserHolder;
 import io.maxilog.service.UserService;
@@ -21,14 +22,16 @@ public class UserServiceImpl implements UserService {
     private static final Logger LOG = LoggerFactory.getLogger(UserServiceImpl.class);
 
     private final UserHolder userHolder;
+    private final NotificationServiceImpl notificationService;
     private final keycloakClient keycloakClient;
     private final UserMapperImpl userMapper;
 
     @Inject
-    public UserServiceImpl(@RestClient keycloakClient keycloakClient, UserMapperImpl userMapper, UserHolder userHolder) {
+    public UserServiceImpl(@RestClient keycloakClient keycloakClient, UserMapperImpl userMapper, UserHolder userHolder, NotificationServiceImpl notificationService) {
         this.userHolder = userHolder;
         this.keycloakClient = keycloakClient;
         this.userMapper = userMapper;
+        this.notificationService = notificationService;
     }
 
 
@@ -37,6 +40,7 @@ public class UserServiceImpl implements UserService {
         LOG.debug("Request to save Users : {}", userDTO);
         keycloakClient.createUser(userMapper.toEntity(userDTO));
         //return userMapper.toDto(user);
+        notificationService.publishKafka(new NotificationKafka("SYSTEM", "SYSTEM","NEW_CUSTOMER", "NOTIFICATION", false));
         return userDTO;
     }
 

@@ -1,14 +1,17 @@
 #!/usr/bin/env bash
-#Plugin OIDC
+#Plugins OIDC & Cors
 curl -i -s -X POST http://kong:8001/plugins \
     -d name=oidc \
-    -d config.client_id=kong \
-    -d config.client_secret=06278770-d0cc-4380-9bca-2b686992f66b \
+    -d config.client_id=back \
+    -d config.client_secret=back \
     -d config.bearer_only=yes \
-    -d config.realm=kong \
-    -d config.introspection_endpoint=http://keycloak:8180/auth/realms/local/protocol/openid-connect/token/introspect \
-    -d config.discovery=http://keycloak:8180/auth/realms/master/.well-known/openid-configuration
-#Plugin OIDC
+    -d config.realm=local \
+    -d config.introspection_endpoint=http://localhost:8180/auth/realms/local/protocol/openid-connect/token/introspect \
+    -d config.discovery=http://localhost:8180/auth/realms/master/.well-known/openid-configuration
+
+curl -i -s -X POST http://kong:8001/plugins \
+    -d name=cors
+#Plugins OIDC & Cors
 
 #Service Customer
 curl -i -s -X POST http://kong:8001/services \
