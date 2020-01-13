@@ -1,0 +1,67 @@
+#
+# Native Quarkus CircleCI configuration file
+#
+version: 2
+jobs:
+  build:
+    # Use "machine" instead of e.g. "docker" for better/faster results
+    machine: true
+    # Uses a "medium" sized machine - maybe increase this to "large" if you pay for CircleCI
+    resource_class: medium
+    working_directory: ~/repo
+    environment:
+      MAVEN_OPTS: -Xmx6400m
+      # Set the GRAALVM_HOME env variable to the location where we will be installing GraalVM
+      GRAALVM_HOME: /home/circleci/repo/.graalvm
+    steps:
+      # Checkout the source code
+      # ########################
+      - checkout
+
+      # Restore any files we may have cached
+      # ########################
+      - restore_cache:
+          keys:
+            - v1-dependencies-{{ checksum "pom.xml" }}
+            # fallback to using the latest cache if no exact match is found
+            - v1-dependencies-
+
+      # Download maven dependencies so that we can cache them
+      # ########################
+      - run:
+          name: Download Dependencies
+          command: mvn dependency:go-offline
+      # Cache the maven dependencies
+      - save_cache:
+          paths:
+            - ~/.m2
+          key: v1-dependencies-{{ checksum "pom.xml" }}
+
+      # Standard maven build and test phases - does not perform a native build (or verify)
+      # ########################
+      - run:
+          name: Build (Standard)
+          command: ./mvnw clean package -DskipTests -Dmaven.test.skip=true
+      - run:
+          name: Verify (Standard)
+          command: ./mvnw test
+
+      # Install GraalVM and native-image, needed for a native Quarkus build
+      # ########################
+      - run:
+          name: Install GraalVM
+          command: curl https://github.com/oracle/graal/releases/download/vm-19.2.1/graalvm-ce-linux-amd64-19.2.1.tar.gz -O -J -L && tar xfz graalvm-ce-linux-amd64-19.2.1.tar.gz && mv graalvm-ce-19.2.1 .graalvm && rm graalvm-ce-linux-amd64-19.2.1.tar.gz
+      - run:
+          name: Install native-image
+          command: $GRAALVM_HOME/bin/gu install native-image
+
+      # Perform a native Quarkus build and verify
+      # ########################
+      - run:
+          name: Build (Native)
+          command: ./mvnw clean package -Pnative -DskipTests -Dmaven.test.skip=true
+          no_output_timeout: 30m
+      - run:
+          name: Verify (Native)
+          command: ./mvnw verify -Pnative
+          no_output_timeout: 30m

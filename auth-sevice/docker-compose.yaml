@@ -2,7 +2,7 @@ version: '2'
 services:
   keycloak-db:
     image: postgres:11.5
-    container_name: kc-db
+    container_name: maxilog-keycloak-db
     volumes:
       - keycloak-datastore:/var/lib/postresql/data
     ports:
@@ -14,8 +14,9 @@ services:
 
   keycloak:
     image: jboss/keycloak:7.0.0
+    container_name: maxilog-keycloak
     ports:
-      - '9080:8080'
+      - '8180:8080'
     volumes:
       - ./realm:/opt/jboss/keycloak/realm-config
     environment:

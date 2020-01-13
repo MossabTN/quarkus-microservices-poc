@@ -11,6 +11,6 @@ keycloak:
         secretName: realm-secret
   extraVolumeMounts: |
     - name: realm-secret
-      mountPath: "/realm/"
+      mountPath: "../../auth-service/realm/"
       readOnly: true
   extraArgs: -Dkeycloak.import=/realm/realm.json

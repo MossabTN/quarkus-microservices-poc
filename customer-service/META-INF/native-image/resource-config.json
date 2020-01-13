@@ -1,0 +1,28 @@
+{
+  "resources":[
+    {"pattern":"META-INF/services/io.quarkus.arc.ComponentsProvider"}, 
+    {"pattern":"META-INF/services/io.smallrye.config.SmallRyeConfigFactory"}, 
+    {"pattern":"META-INF/services/io.vertx.core.spi.BufferFactory"}, 
+    {"pattern":"META-INF/services/io.vertx.core.spi.FutureFactory"}, 
+    {"pattern":"META-INF/services/io.vertx.core.spi.json.JsonCodec"}, 
+    {"pattern":"META-INF/services/javax.ws.rs.client.ClientBuilder"}, 
+    {"pattern":"META-INF/services/javax.ws.rs.ext.RuntimeDelegate"}, 
+    {"pattern":"META-INF/services/org.eclipse.microprofile.config.spi.ConfigProviderResolver"}, 
+    {"pattern":"META-INF/services/org.eclipse.microprofile.config.spi.ConfigSource"}, 
+    {"pattern":"META-INF/services/org.eclipse.microprofile.config.spi.Converter"}, 
+    {"pattern":"META-INF/services/org.eclipse.microprofile.context.spi.ContextManagerExtension"}, 
+    {"pattern":"META-INF/services/org.eclipse.microprofile.context.spi.ThreadContextProvider"}, 
+    {"pattern":"META-INF/services/org.eclipse.microprofile.reactive.streams.operators.ReactiveStreamsFactory"}, 
+    {"pattern":"META-INF/services/org.eclipse.microprofile.reactive.streams.operators.spi.ReactiveStreamsEngine"}, 
+    {"pattern":"META-INF/services/org.jboss.logmanager.EmbeddedConfigurator"}, 
+    {"pattern":"META-INF/services/org.jboss.resteasy.microprofile.client.header.IncomingHeadersProvider"}, 
+    {"pattern":"application.properties"}, 
+    {"pattern":"java/lang/invoke/MethodHandleImpl$BindCaller$T.class"}, 
+    {"pattern":"kafka/kafka-version.properties"}, 
+    {"pattern":"mozilla/public-suffix-list.txt"}, 
+    {"pattern":"org/apache/http/client/version.properties"}, 
+    {"pattern":"org/jboss/threads/Version.properties"}, 
+    {"pattern":"sun/net/idn/uidna.spp"}, 
+    {"pattern":"sun/text/resources/unorm.icu"}
+  ]
+}

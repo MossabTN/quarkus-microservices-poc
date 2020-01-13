@@ -1,0 +1,246 @@
+{
+  "createdUser": null,
+  "updatedUser": null,
+  "id": 8,
+  "name": "kong-config",
+  "kong_node_name": "kong",
+  "kong_node_url": "http://kong:8001",
+  "kong_version": "1.4.0",
+  "data": {
+    "services": [
+      {
+        "host": "localhost",
+        "created_at": 1578839876,
+        "connect_timeout": 60000,
+        "id": "c66db8e9-8b31-4476-93d9-8fd1b2d4a273",
+        "protocol": "http",
+        "name": "customer",
+        "read_timeout": 60000,
+        "port": 8081,
+        "path": null,
+        "updated_at": 1578840493,
+        "retries": 5,
+        "write_timeout": 60000,
+        "tags": null,
+        "client_certificate": null,
+        "extras": {
+          "id": 1,
+          "service_id": "c66db8e9-8b31-4476-93d9-8fd1b2d4a273",
+          "kong_node_id": "1",
+          "description": null,
+          "tags": null,
+          "createdAt": "2020-01-12T14:37:56.000Z",
+          "updatedAt": "2020-01-12T14:37:56.000Z",
+          "createdUser": null,
+          "updatedUser": null
+        }
+      },
+      {
+        "host": "localhost",
+        "created_at": 1578839876,
+        "connect_timeout": 60000,
+        "id": "c66db8e9-8b31-4476-93d9-8fd1b2d4a274",
+        "protocol": "http",
+        "name": "chat-and-notification",
+        "read_timeout": 60000,
+        "port": 8082,
+        "path": null,
+        "updated_at": 1578840493,
+        "retries": 5,
+        "write_timeout": 60000,
+        "tags": null,
+        "client_certificate": null,
+        "extras": {}
+      },
+      {
+        "host": "localhost",
+        "created_at": 1578839876,
+        "connect_timeout": 60000,
+        "id": "c66db8e9-8b31-4476-93d9-8fd1b2d4a275",
+        "protocol": "http",
+        "name": "product",
+        "read_timeout": 60000,
+        "port": 8083,
+        "path": null,
+        "updated_at": 1578840493,
+        "retries": 5,
+        "write_timeout": 60000,
+        "tags": null,
+        "client_certificate": null,
+        "extras": {}
+      },
+      {
+        "host": "localhost",
+        "created_at": 1578839876,
+        "connect_timeout": 60000,
+        "id": "c66db8e9-8b31-4476-93d9-8fd1b2d4a276",
+        "protocol": "http",
+        "name": "order",
+        "read_timeout": 60000,
+        "port": 8084,
+        "path": null,
+        "updated_at": 1578840493,
+        "retries": 5,
+        "write_timeout": 60000,
+        "tags": null,
+        "client_certificate": null,
+        "extras": {}
+      }
+    ],
+    "routes": [
+      {
+        "id": "94a5913d-2c04-4511-841d-a4806b2f1ecd",
+        "tags": null,
+        "updated_at": 1578840684,
+        "destinations": null,
+        "headers": null,
+        "protocols": [
+          "http",
+          "https"
+        ],
+        "created_at": 1578839897,
+        "snis": null,
+        "service": {
+          "id": "c66db8e9-8b31-4476-93d9-8fd1b2d4a273"
+        },
+        "name": "default-customer",
+        "preserve_host": false,
+        "regex_priority": 0,
+        "strip_path": true,
+        "sources": null,
+        "paths": [
+          "/*"
+        ],
+        "https_redirect_status_code": 426,
+        "hosts": null,
+        "methods": null
+      },
+      {
+        "id": "94a5913d-2c04-4511-841d-a4806b2f1ece",
+        "tags": null,
+        "updated_at": 1578840684,
+        "destinations": null,
+        "headers": null,
+        "protocols": [
+          "http",
+          "https"
+        ],
+        "created_at": 1578839897,
+        "snis": null,
+        "service": {
+          "id": "c66db8e9-8b31-4476-93d9-8fd1b2d4a274"
+        },
+        "name": "default-chat-and-notification",
+        "preserve_host": false,
+        "regex_priority": 0,
+        "strip_path": true,
+        "sources": null,
+        "paths": [
+          "/*"
+        ],
+        "https_redirect_status_code": 426,
+        "hosts": null,
+        "methods": null
+      },
+      {
+        "id": "94a5913d-2c04-4511-841d-a4806b2f1ecf",
+        "tags": null,
+        "updated_at": 1578840684,
+        "destinations": null,
+        "headers": null,
+        "protocols": [
+          "http",
+          "https"
+        ],
+        "created_at": 1578839897,
+        "snis": null,
+        "service": {
+          "id": "c66db8e9-8b31-4476-93d9-8fd1b2d4a275"
+        },
+        "name": "default-product",
+        "preserve_host": false,
+        "regex_priority": 0,
+        "strip_path": true,
+        "sources": null,
+        "paths": [
+          "/*"
+        ],
+        "https_redirect_status_code": 426,
+        "hosts": null,
+        "methods": null
+      },
+      {
+        "id": "94a5913d-2c04-4511-841d-a4806b2f1ec1",
+        "tags": null,
+        "updated_at": 1578840707,
+        "destinations": null,
+        "headers": null,
+        "protocols": [
+          "http",
+          "https"
+        ],
+        "created_at": 1578839897,
+        "snis": null,
+        "service": {
+          "id": "c66db8e9-8b31-4476-93d9-8fd1b2d4a276"
+        },
+        "name": "deafult-order",
+        "preserve_host": false,
+        "regex_priority": 0,
+        "strip_path": true,
+        "sources": null,
+        "paths": [
+          "/*"
+        ],
+        "https_redirect_status_code": 426,
+        "hosts": [],
+        "methods": []
+      }
+    ],
+    "consumers": [],
+    "plugins": [
+      {
+        "created_at": 1570716248,
+        "config": {
+          "response_type": "code",
+          "introspection_endpoint": "http://localhost:8180/auth/realms/local/protocol/openid-connect/token/introspect",
+          "filters": null,
+          "bearer_only": "yes",
+          "ssl_verify": "no",
+          "session_secret": null,
+          "introspection_endpoint_auth_method": null,
+          "realm": "local",
+          "redirect_after_logout_uri": "/",
+          "scope": "openid",
+          "token_endpoint_auth_method": "client_secret_post",
+          "logout_path": "/logout",
+          "client_id": "back",
+          "client_secret": "back",
+          "discovery": "http://localhost:8180/auth/realms/master/.well-known/openid-configuration",
+          "recovery_page_path": null,
+          "redirect_uri_path": null
+        },
+        "id": "c6a00c1a-b83a-4323-8aab-32da64ce79bb",
+        "service": null,
+        "name": "oidc",
+        "protocols": [
+          "grpc",
+          "grpcs",
+          "http",
+          "https"
+        ],
+        "enabled": true,
+        "run_on": "first",
+        "consumer": null,
+        "route": null,
+        "tags": null
+      }
+    ],
+    "acls": [],
+    "upstreams": [],
+    "certificates": [],
+    "snis": []
+  },
+  "createdAt": "2020-01-12T14:52:48.000Z",
+  "updatedAt": "2020-01-12T14:52:48.000Z"
+}

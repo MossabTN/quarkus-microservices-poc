@@ -39,7 +39,7 @@ public class AppLifecycleBean {
                     "Application '{}' is running! Access URLs:\n\t" + "Local: \t\t{}://localhost:{}\n\t" +
                     "External: \t{}://{}:{}\n\t" +
                     "Profile(s): \t{}\n----------------------------------------------------------\n----------------------------------------------------------",
-            config.getValue("weavin.application.name", String.class),
+            config.getValue("maxilog.application.name", String.class),
             protocol, config.getValue("quarkus.http.port", String.class), protocol,
             InetAddress.getLocalHost().getHostAddress(),config.getValue("quarkus.http.port", String.class), ProfileManager.getActiveProfile());
 

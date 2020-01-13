@@ -7,7 +7,7 @@ import { KeycloakConfig } from 'keycloak-angular';
 
 // Add here your keycloak setup infos
 let keycloakConfig: KeycloakConfig = {
-  url: 'http://localhost:9080/auth',
+  url: 'http://localhost:8180/auth',
   realm: 'quarkus',
   clientId: 'front'
 };

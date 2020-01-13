@@ -1,4 +1,4 @@
-version: '2'
+version: '3.1'
 services:
 
   kong-database:
@@ -29,6 +29,21 @@ services:
       KONG_PG_DATABASE: kong
       KONG_PG_USER: kong
       KONG_PG_PASSWORD: kong
+    networks:
+      - kong-net
+    links:
+      - kong-database
+    restart: on-failure
+
+  kong-config:
+    build:
+      dockerfile: Dockerfile
+      context: ./config
+    container_name: kong-config
+    depends_on:
+      - kong
+    environment:
+      KONG_DATABASE: postgres
     networks:
       - kong-net
     links:
