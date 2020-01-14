@@ -6,11 +6,13 @@ curl -i -s -X POST http://localhost:8001/plugins \
     -d config.client_secret=back \
     -d config.bearer_only=yes \
     -d config.realm=local \
+    -d config.filters=notification/ws/ \
     -d config.introspection_endpoint=http://localhost:8180/auth/realms/local/protocol/openid-connect/token/introspect \
     -d config.discovery=http://localhost:8180/auth/realms/master/.well-known/openid-configuration
 
 curl -i -s -X POST http://localhost:8001/plugins \
-    -d name=cors
+    -d name=cors \
+    -d config.credentials=true
 #Plugins OIDC & Cors
 
 #Service Customer

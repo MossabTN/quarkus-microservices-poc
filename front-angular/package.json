@@ -30,6 +30,7 @@
     "keycloak-angular": "^7.0.1",
     "keycloak-js": "^6.0.1",
     "rxjs": "^6.4.0",
+    "vertx3-eventbus-client": "^3.8.4",
     "zone.js": "^0.9.1"
   },
   "devDependencies": {

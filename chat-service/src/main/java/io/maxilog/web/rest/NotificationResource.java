@@ -62,12 +62,24 @@ public class NotificationResource {
     public Response create(NotificationDTO notificationDTO) throws URISyntaxException {
         LOGGER.debug("REST request to save Notification : {}", notificationDTO);
         if (notificationDTO.getId() != null) {
-            throw new BadRequestException("A new user cannot already have an ID");
+            throw new BadRequestException("A new notification cannot already have an ID");
         }
 
         NotificationDTO result = notificationservice.save(notificationDTO);
         return Response.created(new URI("/api/notifications/" + result.getId())).entity(result)
                 .build();
+    }
+
+
+    @POST
+    @Path("/notifications/notify")
+    public Response notify(NotificationDTO notificationDTO) throws URISyntaxException {
+        LOGGER.debug("REST request to save Notification : {}", notificationDTO);
+        if (notificationDTO.getId() != null) {
+            throw new BadRequestException("A new notification cannot already have an ID");
+        }
+        notificationservice.notify(notificationDTO);
+        return Response.ok().build();
     }
 
     @DELETE

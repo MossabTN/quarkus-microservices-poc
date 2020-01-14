@@ -35,7 +35,6 @@ export class UsersContainerComponent implements OnInit{
   }
 
   refresh(ex: ClrDatagridStateInterface){
-    console.log(ex);
     this.paginationArgs.pageNumber = ex.page.current;
     this.paginationArgs.pageSize = ex.page.size;
     this.findAll();
