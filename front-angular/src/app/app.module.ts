@@ -8,11 +8,12 @@ import {AppRoutingModule} from './app-routing.module';
 
 import {environment} from '../environments/environment';
 import {AppComponent} from "./app.component";
-import {UsersComponent} from "./components/users/container/users.component";
+import {UsersContainerComponent} from "./components/users/container/users.container.component";
 import {HomeComponent} from "./home/home.component";
 import {UsersService} from "./components/users/services/users.service";
 import {AuthInterceptor} from "./core/interceptor/auth.interceptor";
 import {FooterComponent, NavbarComponent} from "./layouts";
+import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 
 let keycloakService: KeycloakService = new KeycloakService();
 
@@ -21,11 +22,11 @@ let keycloakService: KeycloakService = new KeycloakService();
         AppComponent,
         NavbarComponent,
         FooterComponent,
-        UsersComponent,
         HomeComponent],
     imports: [
         BrowserModule,
         HttpClientModule,
+        BrowserAnimationsModule,
         ClarityModule,
         KeycloakAngularModule,
         AppRoutingModule

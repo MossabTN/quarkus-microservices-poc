@@ -28,7 +28,7 @@ public interface keycloakClient {
 
     @GET
     @Path("/users/count")
-    List<UserRepresentation> countUsers();
+    int countUsers();
 
     @GET
     @Path("/users")

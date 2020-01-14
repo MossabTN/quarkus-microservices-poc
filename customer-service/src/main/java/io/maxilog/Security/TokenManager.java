@@ -65,7 +65,7 @@ public class TokenManager {
             currentToken = tokenService.refreshToken(form.asMap());
             expirationTime = requestTime + currentToken.getExpiresIn();
             return currentToken;
-        } catch (BadRequestException e) {
+        } catch (WebApplicationException e) {
             return grantToken();
         }
     }

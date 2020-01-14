@@ -37,7 +37,7 @@ public class UserResource {
     @Path("/users")
     public Response findAll(@BeanParam PageableImpl pageable) {
         LOGGER.debug("REST request to get all Users");
-        return Response.ok().entity(userService.findAll(pageable)).build();
+        return Response.ok().entity(userService.findPage(pageable)).build();
     }
 
     @GET
@@ -83,7 +83,7 @@ public class UserResource {
             throw new BadRequestException("Updated user must have an ID");
         }
 
-        return ResponseUtil.wrapOrNotFound(Optional.ofNullable(userService.save(userDTO)));
+        return ResponseUtil.wrapOrNotFound(Optional.ofNullable(userService.update(userDTO)));
     }
 
 

@@ -1,0 +1,70 @@
+<div class="content-area">
+  <div class="row">
+    <div class="col-xs-12">
+      <h2>Users</h2>
+    </div>
+  </div>
+  <div class="row">
+    <clr-datagrid class="col-xs" (clrDgRefresh)="refresh($event)" [clrDgLoading]="loading" >
+      <clr-dg-column>ID</clr-dg-column>
+      <clr-dg-column>UserName</clr-dg-column>
+      <clr-dg-column>Email</clr-dg-column>
+      <clr-dg-column>First Name</clr-dg-column>
+      <clr-dg-column>Last Name</clr-dg-column>
+
+      <clr-dg-row *ngFor="let user of users">
+        <clr-dg-cell>{{ user?.id }}</clr-dg-cell>
+        <clr-dg-cell>{{ user?.username }}</clr-dg-cell>
+        <clr-dg-cell>{{ user?.email }}</clr-dg-cell>
+        <clr-dg-cell>{{ user?.firstName }}</clr-dg-cell>
+        <clr-dg-cell>{{ user?.lastName }}</clr-dg-cell>
+        <clr-dg-action-overflow>
+          <button class="action-item" (click)="onEdit(user)">Edit</button>
+          <button class="action-item" (click)="onDelete(user)">Delete</button>
+        </clr-dg-action-overflow>
+      </clr-dg-row>
+      <clr-dg-footer>
+        {{pagination.firstItem + 1}} - {{pagination.lastItem + 1}}
+        of {{total}} users
+        <clr-dg-pagination #pagination [clrDgTotalItems]="total"  [clrDgPageSize]="paginationArgs.pageSize"></clr-dg-pagination>
+      </clr-dg-footer>
+    </clr-datagrid>
+  </div>
+</div>
+
+
+
+<clr-modal [(clrModalOpen)]="modalOpen">
+  <h3 class="modal-title">Update user</h3>
+  <div class="modal-body">
+    <form clrForm [formGroup]="updateUserFormGroup">
+      <clr-input-container>
+        <label>Username</label>
+        <input clrInput formControlName="username" />
+        <clr-control-error *clrIfError="'required'">This is a required field</clr-control-error>
+      </clr-input-container>
+      <clr-input-container>
+        <label>Email</label>
+        <input clrInput formControlName="email" />
+        <clr-control-error *clrIfError="'required'">This is a required field</clr-control-error>
+      </clr-input-container>
+      <clr-input-container>
+        <label>First Name</label>
+        <input clrInput formControlName="firstName" />
+        <clr-control-error *clrIfError="'required'">This is a required field</clr-control-error>
+      </clr-input-container>
+      <clr-input-container>
+        <label>Last Name</label>
+        <input clrInput formControlName="lastName" />
+      </clr-input-container>
+      <clr-input-container>
+        <label>PhoneNumber</label>
+        <input clrInput formControlName="phoneNumber" />
+      </clr-input-container>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline" (click)="modalOpen = false">Cancel</button>
+    <button type="button" class="btn btn-primary" (click)="updateUser()">Update</button>
+  </div>
+</clr-modal>

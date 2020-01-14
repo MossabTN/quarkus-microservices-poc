@@ -1,10 +1,7 @@
-import { NgModule } from '@angular/core';
-import { RouterModule } from '@angular/router';
-
-import { Routes } from '@angular/router';
-import { AppAuthGuard } from './core/auth/app.authguard';
+import {NgModule} from '@angular/core';
+import {RouterModule, Routes} from '@angular/router';
+import {AppAuthGuard} from './core/auth/app.authguard';
 import {HomeComponent} from "./home/home.component";
-import {UsersComponent} from "./components/users/container/users.component";
 
 const routes: Routes = [
   {
@@ -19,7 +16,7 @@ const routes: Routes = [
   },
   {
     path: 'users',
-    component: UsersComponent,
+    loadChildren: () => import('./components/users/users.module').then(m => m.UsersModule),
     canActivate: [AppAuthGuard]
   }
 ];

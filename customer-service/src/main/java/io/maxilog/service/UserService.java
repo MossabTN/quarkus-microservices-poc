@@ -1,5 +1,6 @@
 package io.maxilog.service;
 
+import io.maxilog.service.dto.Page;
 import io.maxilog.service.dto.PageableImpl;
 import io.maxilog.service.dto.UserDTO;
 
@@ -17,6 +18,13 @@ public interface UserService {
      * @return the persisted entity
      */
     UserDTO save(UserDTO userDTO);
+    /**
+     * Save a user.
+     *
+     * @param userDTO the entity to save
+     * @return the persisted entity
+     */
+    UserDTO update(UserDTO userDTO);
 
     /**
      * Get all the userDTO.
@@ -25,6 +33,13 @@ public interface UserService {
      * @return the list of entities
      */
     List<UserDTO> findAll(PageableImpl pageable);
+    /**
+     * Get all the userDTO.
+     *
+     * @param pageable the pagination information
+     * @return the list of entities
+     */
+    Page<UserDTO> findPage(PageableImpl pageable);
 
     /**
      * Get the "id" user.

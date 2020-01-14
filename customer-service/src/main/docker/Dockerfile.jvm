@@ -7,11 +7,11 @@
 #
 # Then, build the image with:
 #
-# docker build -f src/main/docker/Dockerfile.jvm -t maxilog/user-jvm .
+# docker build -f src/main/docker/Dockerfile.jvm -t maxilog/customer-jvm .
 #
 # Then run the container using:
 #
-# docker run -i --rm -p 8081:8081 maxilog/user-jvm
+# docker run -i --rm -p 8081:8081 maxilog/customer-jvm
 #
 ###
 FROM fabric8/java-alpine-openjdk8-jre

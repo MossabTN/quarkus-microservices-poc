@@ -4,6 +4,7 @@ import io.maxilog.chat.NotificationKafka;
 import io.maxilog.client.keycloakClient;
 import io.maxilog.domain.UserHolder;
 import io.maxilog.service.UserService;
+import io.maxilog.service.dto.Page;
 import io.maxilog.service.dto.PageableImpl;
 import io.maxilog.service.dto.UserDTO;
 import io.maxilog.service.mapper.Impl.UserMapperImpl;
@@ -40,7 +41,13 @@ public class UserServiceImpl implements UserService {
         LOG.debug("Request to save Users : {}", userDTO);
         keycloakClient.createUser(userMapper.toEntity(userDTO));
         //return userMapper.toDto(user);
-        notificationService.publishKafka(new NotificationKafka("SYSTEM", "SYSTEM","NEW_CUSTOMER", "NOTIFICATION", false));
+        //notificationService.publishKafka(new NotificationKafka("SYSTEM", "SYSTEM","NEW_CUSTOMER", "NOTIFICATION", false));
+        return userDTO;
+    }
+
+    @Override
+    public UserDTO update(UserDTO userDTO) {
+        keycloakClient.updateUser(userDTO.getId(), userMapper.toEntity(userDTO));
         return userDTO;
     }
 
@@ -51,6 +58,11 @@ public class UserServiceImpl implements UserService {
                 .stream()
                 .map(userMapper::toDto)
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public Page<UserDTO> findPage(PageableImpl pageable) {
+        return new Page<>(findAll(pageable), keycloakClient.countUsers());
     }
 
     @Override

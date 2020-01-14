@@ -52,7 +52,6 @@
 },
 {
   "name":"io.maxilog.config.AppLifecycleBean",
-  "methods":[{"name":"<init>","parameterTypes":["io.maxilog.Security.TokenManager","org.eclipse.microprofile.config.Config"] }]
 },
 {
   "name":"io.maxilog.config.LivenessHealthCheck"
@@ -82,8 +81,7 @@
   "name":"io.maxilog.service.dto.UserDTO"
 },
 {
-  "name":"io.maxilog.service.impl.UserServiceImpl",
-  "methods":[{"name":"<init>","parameterTypes":["io.maxilog.client.keycloakClient","io.maxilog.service.mapper.Impl.UserMapperImpl","io.maxilog.domain.UserHolder"] }]
+  "name":"io.maxilog.service.impl.UserServiceImpl"
 },
 {
   "name":"io.maxilog.service.mapper.EntityMapper"

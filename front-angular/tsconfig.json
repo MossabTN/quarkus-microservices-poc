@@ -5,6 +5,7 @@
     "sourceMap": true,
     "baseUrl": "src",
     "declaration": false,
+    "module": "esnext",
     "moduleResolution": "node",
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
