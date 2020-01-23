@@ -1,0 +1,22 @@
+version: '2'
+
+services:
+  mongodb:
+    image: mongo:3.4.5
+    ports:
+      - 27017:27017
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=adminmaxilog
+      - MONGO_INITDB_ROOT_PASSWORD=adminmaxilog2020
+    volumes:
+      - ./data/db:/data/db
+
+
+  postgresql:
+    image: postgres:11.5
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_DB=quarkus
+      - POSTGRES_USER=quarkus
+      - POSTGRES_PASSWORD=quarkus

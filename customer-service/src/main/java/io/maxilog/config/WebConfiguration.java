@@ -18,7 +18,7 @@ public class WebConfiguration {
     @RequestScoped
     @Produces
     public UserHolder userHolder(JsonWebToken jsonWebToken){
-        LOGGER.debug("Creating UserHolder of {}", jsonWebToken.getName());
+        LOGGER.info("Creating UserHolder of {}", jsonWebToken.getName());
         return new UserHolder(jsonWebToken.getName());
     }
 }

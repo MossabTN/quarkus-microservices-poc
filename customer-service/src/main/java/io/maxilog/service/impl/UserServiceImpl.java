@@ -38,7 +38,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDTO save(UserDTO userDTO) {
-        LOG.debug("Request to save Users : {}", userDTO);
+        LOG.info("Request to save Users : {}", userDTO);
         keycloakClient.createUser(userMapper.toEntity(userDTO));
         //return userMapper.toDto(user);
         //notificationService.publishKafka(new NotificationKafka("SYSTEM", "SYSTEM","NEW_CUSTOMER", "NOTIFICATION", false));
@@ -53,7 +53,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<UserDTO> findAll(PageableImpl pageable){
-        LOG.debug("Request to get all Users");
+        LOG.info("Request to get all Users");
         return keycloakClient.getUsersPageable(pageable.getPage(), pageable.getSize())
                 .stream()
                 .map(userMapper::toDto)
@@ -67,13 +67,13 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDTO findOne(String id) {
-        LOG.debug("Request to get User : {}", id);
+        LOG.info("Request to get User : {}", id);
         return userMapper.toDto(keycloakClient.getUserById(id));
     }
 
     @Override
     public UserDTO findUsername(String username) {
-        LOG.debug("Request to get User by username: {}", username);
+        LOG.info("Request to get User by username: {}", username);
         return keycloakClient.getUsersByUsername(username)
                 .stream()
                 .findFirst()
@@ -92,7 +92,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void delete(String id) {
-        LOG.debug("Request to delete User : {}", id);
+        LOG.info("Request to delete User : {}", id);
         keycloakClient.deleteUser(id);
     }
 }
