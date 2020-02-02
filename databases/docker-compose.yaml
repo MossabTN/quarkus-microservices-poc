@@ -9,7 +9,7 @@ services:
       - MONGO_INITDB_ROOT_USERNAME=adminmaxilog
       - MONGO_INITDB_ROOT_PASSWORD=adminmaxilog2020
     volumes:
-      - ./data/db:/data/db
+      - ./data/mongo:/data/db
 
 
   postgresql:
@@ -20,3 +20,5 @@ services:
       - POSTGRES_DB=quarkus
       - POSTGRES_USER=quarkus
       - POSTGRES_PASSWORD=quarkus
+    volumes:
+      - ./data/postgres:/var/lib/postgresql/data

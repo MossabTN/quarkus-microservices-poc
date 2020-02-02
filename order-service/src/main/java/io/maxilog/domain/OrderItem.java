@@ -21,14 +21,19 @@ public class OrderItem implements Serializable {
     @Column(name = "quantity", nullable = false)
     private Long quantity;
 
+    @NotNull
+    @Column(name = "product", nullable = false)
     private Long productId;
 
-    @JsonIgnoreProperties("orderItems")
-    @ManyToOne
-    @JoinColumn()
+    @ManyToOne(fetch = FetchType.LAZY)
     private Order order;
 
     public OrderItem() {}
+
+    public OrderItem(@NotNull Long productId, @NotNull Long quantity) {
+        this.quantity = quantity;
+        this.productId = productId;
+    }
 
     public OrderItem(Long quantity, Long productId, Order order) {
         this.quantity = quantity;

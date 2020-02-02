@@ -14,7 +14,7 @@
 
       <clr-dg-row *ngFor="let user of users">
         <clr-dg-cell>{{ user?.id }}</clr-dg-cell>
-        <clr-dg-cell>{{ user?.username }}</clr-dg-cell>
+        <clr-dg-cell>{{ user?.customer }}</clr-dg-cell>
         <clr-dg-cell>{{ user?.email }}</clr-dg-cell>
         <clr-dg-cell>{{ user?.firstName }}</clr-dg-cell>
         <clr-dg-cell>{{ user?.lastName }}</clr-dg-cell>
@@ -40,7 +40,7 @@
     <form clrForm [formGroup]="updateUserFormGroup">
       <clr-input-container>
         <label>Username</label>
-        <input clrInput formControlName="username" />
+        <input clrInput formControlName="customer" />
         <clr-control-error *clrIfError="'required'">This is a required field</clr-control-error>
       </clr-input-container>
       <clr-input-container>

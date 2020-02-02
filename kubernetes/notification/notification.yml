@@ -1,0 +1,94 @@
+apiVersion: "v1"
+kind: "Service"
+metadata:
+  labels:
+    app: "notification-service"
+  name: "notification-service"
+spec:
+  ports:
+    - name: "http"
+      port: 80
+      targetPort: 8082
+  selector:
+    app: "maxilog-notification"
+  type: "ClusterIP"
+---
+apiVersion: "apps/v1"
+kind: "Deployment"
+metadata:
+  labels:
+    app: "maxilog-notification"
+  name: "maxilog-notification"
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: "maxilog-notification"
+  template:
+    metadata:
+      labels:
+        app: "maxilog-notification"
+    spec:
+      containers:
+        - image: "maxilog/notification:latest"
+          imagePullPolicy: "IfNotPresent"
+          name: "maxilog-notification"
+          ports:
+            - containerPort: 8082
+          env:
+            - name: "MAXILOG_KEYCLOAK_URL"
+              value: http://keycloak-http
+            - name: "MAXILOG_KEYCLOAK_REALM"
+              value: "local"
+            - name: "QUARKUS_OIDC_CLIENT_ID"
+              value: "back"
+            - name: "QUARKUS_OIDC_CREDENTIALS_SECRET"
+              value: "back"
+            - name: "QUARKUS_MONGODB_CONNECTION_STRING"
+              value: mongodb://maxilog-notification-user:maxilog-notification-password@mongodb-service:27017
+            - name: "QUARKUS_MONGODB_DATABASE"
+              value: notification
+            - name: "MP_MESSAGING_OUTGOING_NOTIFICATION_SCHEMA_REGISTRY_URL"
+              value: http://kafka-cp-schema-registry:8081
+            - name: "MP_MESSAGING_OUTGOING_NOTIFICATION_BOOTSTRAP_SERVERS"
+              value: http://kafka-cp-kafka:9092
+            - name: "MP_MESSAGING_INCOMING_INPUT_SCHEMA_REGISTRY_URL"
+              value: http://kafka-cp-schema-registry:8081
+            - name: "MP_MESSAGING_INCOMING_INPUT_BOOTSTRAP_SERVERS"
+              value: http://kafka-cp-kafka:9092
+#          livenessProbe:
+#            failureThreshold: 3
+#            httpGet:
+#              path: "/health/live"
+#              port: 8082
+#              scheme: "HTTP"
+#            initialDelaySeconds: 0
+#            periodSeconds: 30
+#            successThreshold: 1
+#            timeoutSeconds: 10
+#          readinessProbe:
+#            failureThreshold: 3
+#            httpGet:
+#              path: "/health/ready"
+#              port: 8082
+#              scheme: "HTTP"
+#            initialDelaySeconds: 0
+#            periodSeconds: 30
+#            successThreshold: 1
+#            timeoutSeconds: 10
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: notification
+#  annotations:
+#    plugins.konghq.com: kong-oidc
+spec:
+  rules:
+    - http:
+        paths:
+          - path: /notification
+            backend:
+              serviceName: notification-service
+              servicePort: 80
+

@@ -11,7 +11,7 @@ import javax.enterprise.inject.Alternative;
 @Priority(1)
 @ApplicationScoped
 @RestClient
-public class MockUserClient implements UserClient {
+public class MockUserClient implements CustomerClient {
 
 
     @Override

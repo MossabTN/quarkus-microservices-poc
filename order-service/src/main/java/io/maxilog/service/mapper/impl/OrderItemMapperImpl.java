@@ -46,7 +46,7 @@ public class OrderItemMapperImpl implements OrderItemMapper {
         orderItemDTO.setId( entity.getId() );
         orderItemDTO.setQuantity( entity.getQuantity() );
         try {
-            ProductDTO productDTO = productClient.getProdcutById(entity.getProductId());
+            ProductDTO productDTO = productClient.getProductById(entity.getProductId());
             if(productDTO != null){
                 orderItemDTO.setProduct(productDTO);
             }else{

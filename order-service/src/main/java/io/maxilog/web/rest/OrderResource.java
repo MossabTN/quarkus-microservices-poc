@@ -69,6 +69,7 @@ public class OrderResource {
                 .build();
     }
 
+/*
     @PUT
     @Path("/orders")
     public Response update(OrderDTO orderDTO) {
@@ -79,7 +80,7 @@ public class OrderResource {
 
         return ResponseUtil.wrapOrNotFound(Optional.ofNullable(orderService.save(orderDTO)));
     }
-
+*/
 
     @DELETE
     @Path("/orders/{id}")

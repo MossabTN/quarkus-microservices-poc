@@ -1,6 +1,6 @@
 package io.maxilog.service.mapper.impl;
 
-import io.maxilog.client.UserClient;
+import io.maxilog.client.CustomerClient;
 import io.maxilog.domain.Order;
 import io.maxilog.domain.OrderItem;
 import io.maxilog.service.dto.CustomerDTO;
@@ -25,11 +25,11 @@ public class OrderMapperImpl implements OrderMapper {
     private final PaymentMapper paymentMapper;
     private final OrderItemMapper orderItemMapper;
     private final AddressMapper addressMapper;
-    private final UserClient userClient;
+    private final CustomerClient userClient;
 
     @Inject
     public OrderMapperImpl(PaymentMapper paymentMapper, OrderItemMapper orderItemMapper,
-                           AddressMapper addressMapper, @RestClient UserClient userClient) {
+                           AddressMapper addressMapper, @RestClient CustomerClient userClient) {
         this.paymentMapper = paymentMapper;
         this.orderItemMapper = orderItemMapper;
         this.addressMapper = addressMapper;
@@ -50,8 +50,8 @@ public class OrderMapperImpl implements OrderMapper {
         order.setPayment( paymentMapper.toEntity( dto.getPayment() ) );
         order.setShipmentAddress( addressMapper.toEntity( dto.getShipmentAddress() ) );
         order.setOrderItems( orderItemDTOSetToOrderItemSet( dto.getOrderItems() ) );
-        //order.setUsername( dto.getUsername() );
-        order.setUsername(dto.getCustomer()==null?null:dto.getCustomer().getUsername());
+        //order.setCustomer( dto.getCustomer() );
+        order.setCustomer(dto.getCustomer()==null?null:dto.getCustomer().getUsername());
         return order;
     }
 
@@ -69,16 +69,16 @@ public class OrderMapperImpl implements OrderMapper {
         orderDTO.setPayment( paymentMapper.toDto( entity.getPayment() ) );
         orderDTO.setShipmentAddress( addressMapper.toDto( entity.getShipmentAddress() ) );
         orderDTO.setOrderItems( orderItemSetToOrderItemDTOSet( entity.getOrderItems() ) );
-        //orderDTO.setUsername( entity.getUsername() );
+        //orderDTO.setCustomer( entity.getCustomer() );
         try {
-            CustomerDTO customerDTO = userClient.getUserByUsername(entity.getUsername());
+            CustomerDTO customerDTO = userClient.getUserByUsername(entity.getCustomer());
             if(customerDTO != null){
                 orderDTO.setCustomer(customerDTO);
             }else{
-                orderDTO.setCustomer(new CustomerDTO(entity.getUsername()));
+                orderDTO.setCustomer(new CustomerDTO(entity.getCustomer()));
             }
         } catch (Exception e) {
-            orderDTO.setCustomer(new CustomerDTO(entity.getUsername()));
+            orderDTO.setCustomer(new CustomerDTO(entity.getCustomer()));
         }
         return orderDTO;
     }

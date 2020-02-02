@@ -28,8 +28,8 @@ public class MockKeycloakClient implements keycloakClient {
     }
 
     @Override
-    public List<UserRepresentation> countUsers() {
-        return null;
+    public int countUsers() {
+        return 1;
     }
 
     @Override

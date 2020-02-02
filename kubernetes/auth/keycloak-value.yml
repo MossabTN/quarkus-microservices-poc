@@ -1,4 +1,7 @@
 keycloak:
+  image:
+    repository: jboss/keycloak
+    tag: 7.0.0
   ingress:
     enabled: true
     path: /keycloak
@@ -11,6 +14,6 @@ keycloak:
         secretName: realm-secret
   extraVolumeMounts: |
     - name: realm-secret
-      mountPath: "../../auth-service/realm/"
+      mountPath: "/realm/"
       readOnly: true
   extraArgs: -Dkeycloak.import=/realm/realm.json

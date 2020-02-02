@@ -14,6 +14,7 @@
     {"pattern":"META-INF/services/org.eclipse.microprofile.context.spi.ThreadContextProvider"}, 
     {"pattern":"META-INF/services/org.eclipse.microprofile.reactive.streams.operators.ReactiveStreamsFactory"}, 
     {"pattern":"META-INF/services/org.eclipse.microprofile.reactive.streams.operators.spi.ReactiveStreamsEngine"}, 
+    {"pattern":"META-INF/services/org.eclipse.microprofile.rest.client.spi.RestClientListener"}, 
     {"pattern":"META-INF/services/org.jboss.logmanager.EmbeddedConfigurator"}, 
     {"pattern":"META-INF/services/org.jboss.resteasy.microprofile.client.header.IncomingHeadersProvider"}, 
     {"pattern":"application.properties"}, 

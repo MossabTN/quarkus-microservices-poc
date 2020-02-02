@@ -1,0 +1,80 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: postgres-service
+  labels:
+    app: postgres-service
+spec:
+  clusterIP: None
+  ports:
+    - port: 5432
+  selector:
+    app: postgres-service
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  labels:
+    app: maxilog-postgres
+  name: maxilog-postgres
+spec:
+  serviceName: postgres-service
+  replicas: 1
+  selector:
+    matchLabels:
+      app: postgres-service
+  template:
+    metadata:
+      labels:
+        app: postgres-service
+        selector: maxilog-postgres
+    spec:
+      containers:
+        - name: maxilog-postgres
+          image: postgres:11.5
+          imagePullPolicy: "IfNotPresent"
+          env:
+            - name: POSTGRES_USER
+              value: "maxilog-admin-user"
+            - name: POSTGRES_PASSWORD
+              value: "maxilog-admin-password"
+          ports:
+            - containerPort: 5432
+          volumeMounts:
+            - name: postgres-init-vol
+              mountPath: /docker-entrypoint-initdb.d
+              readOnly: true
+            - name: postgres-data-volume
+              mountPath: /var/lib/postgresql/data
+      volumes:
+        - name: postgres-init-vol
+          configMap:
+            name: postgres-init
+        - name: postgres-data-volume
+          persistentVolumeClaim:
+            claimName: postgres-pv-claim
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: postgres-pv-claim
+spec:
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 2Gi
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: postgres-init
+data:
+  init-postgres.sql: |+
+    CREATE DATABASE "product";
+    CREATE USER "maxilog-product-user" WITH PASSWORD 'maxilog-product-password';
+    GRANT ALL PRIVILEGES ON "product" TO "maxilog-product-user";
+
+    CREATE DATABASE "order";
+    CREATE USER "maxilog-order-user" WITH PASSWORD 'maxilog-order-password';
+    GRANT ALL PRIVILEGES ON "order" TO "maxilog-order-user";

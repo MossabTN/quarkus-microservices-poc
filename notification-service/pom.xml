@@ -3,7 +3,7 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <modelVersion>4.0.0</modelVersion>
   <groupId>io.maxilog</groupId>
-  <artifactId>chat-and-notification-service</artifactId>
+  <artifactId>notification-service</artifactId>
   <version>1.0-SNAPSHOT</version>
 
   <properties>
@@ -96,6 +96,20 @@
       <version>1.9.13</version>
     </dependency>
     <!--kafka-->
+    <!--observability-->
+    <dependency>
+      <groupId>io.quarkus</groupId>
+      <artifactId>quarkus-logging-gelf</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>io.quarkus</groupId>
+      <artifactId>quarkus-smallrye-opentracing</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>io.quarkus</groupId>
+      <artifactId>quarkus-smallrye-metrics</artifactId>
+    </dependency>
+    <!--observability-->
     <!--open API-->
     <dependency>
       <groupId>io.quarkus</groupId>

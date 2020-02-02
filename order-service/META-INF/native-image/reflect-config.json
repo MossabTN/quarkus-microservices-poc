@@ -223,10 +223,10 @@
   "allPublicMethods":true
 },
 {
-  "name":"io.maxilog.client.ProductClient"
+  "name":"io.maxilog.client.CustomerClient"
 },
 {
-  "name":"io.maxilog.client.UserClient"
+  "name":"io.maxilog.client.ProductClient"
 },
 {
   "name":"io.maxilog.config.AppLifecycleBean",
@@ -234,6 +234,13 @@
     {"name":"<init>","parameterTypes":["io.maxilog.Security.TokenManager","org.eclipse.microprofile.config.Config"] }, 
     {"name":"onStart","parameterTypes":["io.quarkus.runtime.StartupEvent"] }
   ]
+},
+{
+  "name":"io.maxilog.config.CorsFilter",
+  "allDeclaredFields":true,
+  "allDeclaredMethods":true,
+  "allPublicConstructors":true,
+  "methods":[{"name":"<init>","parameterTypes":[] }]
 },
 {
   "name":"io.maxilog.config.LivenessHealthCheck"
@@ -322,7 +329,7 @@
 },
 {
   "name":"io.maxilog.service.impl.OrderServiceImpl",
-  "methods":[{"name":"<init>","parameterTypes":["io.maxilog.repository.OrderRepository","io.maxilog.service.mapper.OrderMapper","io.smallrye.reactive.messaging.annotations.Emitter","io.maxilog.service.dto.UserHolder"] }]
+  "methods":[{"name":"<init>","parameterTypes":["io.maxilog.repository.OrderRepository","io.maxilog.service.mapper.OrderMapper","io.maxilog.client.ProductClient","io.smallrye.reactive.messaging.annotations.Emitter","io.maxilog.service.dto.UserHolder"] }]
 },
 {
   "name":"io.maxilog.service.mapper.AddressMapper"
@@ -351,7 +358,7 @@
 },
 {
   "name":"io.maxilog.service.mapper.impl.OrderMapperImpl",
-  "methods":[{"name":"<init>","parameterTypes":["io.maxilog.service.mapper.PaymentMapper","io.maxilog.service.mapper.OrderItemMapper","io.maxilog.service.mapper.AddressMapper","io.maxilog.client.UserClient"] }]
+  "methods":[{"name":"<init>","parameterTypes":["io.maxilog.service.mapper.PaymentMapper","io.maxilog.service.mapper.OrderItemMapper","io.maxilog.service.mapper.AddressMapper","io.maxilog.client.CustomerClient"] }]
 },
 {
   "name":"io.maxilog.web.rest.OrderResource",
@@ -527,6 +534,18 @@
 {
   "name":"io.netty.util.internal.shaded.org.jctools.queues.MpscArrayQueueProducerLimitField",
   "fields":[{"name":"producerLimit", "allowUnsafeAccess":true}]
+},
+{
+  "name":"io.opentracing.Tracer"
+},
+{
+  "name":"io.opentracing.contrib.interceptors.OpenTracingInterceptor",
+  "fields":[{"name":"tracerInstance"}]
+},
+{
+  "name":"io.opentracing.contrib.jaxrs2.server.ServerTracingFilter",
+  "allDeclaredFields":true,
+  "allDeclaredMethods":true
 },
 {
   "name":"io.quarkus.agroal.runtime.AbstractDataSourceProducer"
@@ -735,6 +754,30 @@
   "name":"io.quarkus.smallrye.context.runtime.SmallRyeContextPropagationProvider"
 },
 {
+  "name":"io.quarkus.smallrye.opentracing.runtime.QuarkusSmallRyeTracingDynamicFeature",
+  "allDeclaredFields":true,
+  "allDeclaredMethods":true,
+  "allPublicConstructors":true,
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
+  "name":"io.quarkus.smallrye.opentracing.runtime.QuarkusSmallRyeTracingStandaloneVertxDynamicFeature",
+  "allDeclaredFields":true,
+  "allDeclaredMethods":true,
+  "allPublicConstructors":true,
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
+  "name":"io.quarkus.smallrye.opentracing.runtime.QuarkusSmallRyeTracingStandaloneVertxDynamicFeature$StandaloneFilter",
+  "allDeclaredFields":true,
+  "allDeclaredMethods":true,
+  "allPublicConstructors":true,
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
+  "name":"io.quarkus.smallrye.opentracing.runtime.TracerProducer"
+},
+{
   "name":"io.quarkus.smallrye.reactivemessaging.runtime.SmallRyeReactiveMessagingLifecycle"
 },
 {
@@ -759,6 +802,9 @@
 },
 {
   "name":"io.quarkus.vertx.http.runtime.security.HttpSecurityPolicy"
+},
+{
+  "name":"io.quarkus.vertx.http.runtime.security.PathMatchingHttpSecurityPolicy"
 },
 {
   "name":"io.quarkus.vertx.runtime.JsonArrayReader",
@@ -810,6 +856,38 @@
 },
 {
   "name":"io.smallrye.jwt.auth.cdi.CommonJwtProducer"
+},
+{
+  "name":"io.smallrye.metrics.MetricRegistries"
+},
+{
+  "name":"io.smallrye.metrics.MetricsRequestHandler"
+},
+{
+  "name":"io.smallrye.metrics.interceptors.ConcurrentGaugeInterceptor"
+},
+{
+  "name":"io.smallrye.metrics.interceptors.CountedInterceptor"
+},
+{
+  "name":"io.smallrye.metrics.interceptors.MeteredInterceptor"
+},
+{
+  "name":"io.smallrye.metrics.interceptors.MetricName"
+},
+{
+  "name":"io.smallrye.metrics.interceptors.MetricNameFactory"
+},
+{
+  "name":"io.smallrye.metrics.interceptors.MetricsInterceptor"
+},
+{
+  "name":"io.smallrye.metrics.interceptors.TimedInterceptor"
+},
+{
+  "name":"io.smallrye.opentracing.SmallRyeClientTracingFeature",
+  "allDeclaredFields":true,
+  "allDeclaredMethods":true
 },
 {
   "name":"io.smallrye.reactive.messaging.ChannelRegistar"
@@ -958,6 +1036,10 @@
   "methods":[{"name":"getName","parameterTypes":[] }]
 },
 {
+  "name":"java.math.BigDecimal",
+  "methods":[{"name":"<init>","parameterTypes":["java.lang.String"] }]
+},
+{
   "name":"java.net.SocketOption"
 },
 {
@@ -967,6 +1049,10 @@
     {"name":"IP_MULTICAST_LOOP"}, 
     {"name":"IP_MULTICAST_TTL"}
   ]
+},
+{
+  "name":"java.net.URI",
+  "methods":[{"name":"<init>","parameterTypes":["java.lang.String"] }]
 },
 {
   "name":"java.nio.Bits",
@@ -1079,6 +1165,9 @@
 },
 {
   "name":"org.eclipse.microprofile.jwt.JsonWebToken"
+},
+{
+  "name":"org.eclipse.microprofile.metrics.MetricRegistry"
 },
 {
   "name":"org.eclipse.microprofile.reactive.messaging.spi.Connector",
@@ -1241,6 +1330,18 @@
 },
 {
   "name":"org.jboss.resteasy.microprofile.client.DefaultResponseExceptionMapper",
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
+  "name":"org.jboss.resteasy.microprofile.config.FilterConfigSourceImpl",
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
+  "name":"org.jboss.resteasy.microprofile.config.ServletConfigSourceImpl",
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
+  "name":"org.jboss.resteasy.microprofile.config.ServletContextConfigSourceImpl",
   "methods":[{"name":"<init>","parameterTypes":[] }]
 },
 {

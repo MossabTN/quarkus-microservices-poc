@@ -66,6 +66,13 @@
   "methods":[{"name":"<init>","parameterTypes":["io.maxilog.Security.TokenManager","org.eclipse.microprofile.config.Config"] }]
 },
 {
+  "name":"io.maxilog.config.CorsFilter",
+  "allDeclaredFields":true,
+  "allDeclaredMethods":true,
+  "allPublicConstructors":true,
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
   "name":"io.maxilog.config.LivenessHealthCheck"
 },
 {
@@ -297,6 +304,18 @@
   "fields":[{"name":"producerLimit", "allowUnsafeAccess":true}]
 },
 {
+  "name":"io.opentracing.Tracer"
+},
+{
+  "name":"io.opentracing.contrib.interceptors.OpenTracingInterceptor",
+  "fields":[{"name":"tracerInstance"}]
+},
+{
+  "name":"io.opentracing.contrib.jaxrs2.server.ServerTracingFilter",
+  "allDeclaredFields":true,
+  "allDeclaredMethods":true
+},
+{
   "name":"io.quarkus.arc.impl.ActivateRequestContextInterceptor"
 },
 {
@@ -467,6 +486,30 @@
   "name":"io.quarkus.smallrye.context.runtime.SmallRyeContextPropagationProvider"
 },
 {
+  "name":"io.quarkus.smallrye.opentracing.runtime.QuarkusSmallRyeTracingDynamicFeature",
+  "allDeclaredFields":true,
+  "allDeclaredMethods":true,
+  "allPublicConstructors":true,
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
+  "name":"io.quarkus.smallrye.opentracing.runtime.QuarkusSmallRyeTracingStandaloneVertxDynamicFeature",
+  "allDeclaredFields":true,
+  "allDeclaredMethods":true,
+  "allPublicConstructors":true,
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
+  "name":"io.quarkus.smallrye.opentracing.runtime.QuarkusSmallRyeTracingStandaloneVertxDynamicFeature$StandaloneFilter",
+  "allDeclaredFields":true,
+  "allDeclaredMethods":true,
+  "allPublicConstructors":true,
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
+  "name":"io.quarkus.smallrye.opentracing.runtime.TracerProducer"
+},
+{
   "name":"io.quarkus.smallrye.reactivemessaging.runtime.SmallRyeReactiveMessagingLifecycle"
 },
 {
@@ -491,6 +534,9 @@
 },
 {
   "name":"io.quarkus.vertx.http.runtime.security.HttpSecurityPolicy"
+},
+{
+  "name":"io.quarkus.vertx.http.runtime.security.PathMatchingHttpSecurityPolicy"
 },
 {
   "name":"io.quarkus.vertx.runtime.JsonArrayReader",
@@ -542,6 +588,38 @@
 },
 {
   "name":"io.smallrye.jwt.auth.cdi.CommonJwtProducer"
+},
+{
+  "name":"io.smallrye.metrics.MetricRegistries"
+},
+{
+  "name":"io.smallrye.metrics.MetricsRequestHandler"
+},
+{
+  "name":"io.smallrye.metrics.interceptors.ConcurrentGaugeInterceptor"
+},
+{
+  "name":"io.smallrye.metrics.interceptors.CountedInterceptor"
+},
+{
+  "name":"io.smallrye.metrics.interceptors.MeteredInterceptor"
+},
+{
+  "name":"io.smallrye.metrics.interceptors.MetricName"
+},
+{
+  "name":"io.smallrye.metrics.interceptors.MetricNameFactory"
+},
+{
+  "name":"io.smallrye.metrics.interceptors.MetricsInterceptor"
+},
+{
+  "name":"io.smallrye.metrics.interceptors.TimedInterceptor"
+},
+{
+  "name":"io.smallrye.opentracing.SmallRyeClientTracingFeature",
+  "allDeclaredFields":true,
+  "allDeclaredMethods":true
 },
 {
   "name":"io.smallrye.reactive.messaging.ChannelRegistar"
@@ -689,6 +767,10 @@
   "methods":[{"name":"getName","parameterTypes":[] }]
 },
 {
+  "name":"java.math.BigDecimal",
+  "methods":[{"name":"<init>","parameterTypes":["java.lang.String"] }]
+},
+{
   "name":"java.net.SocketOption"
 },
 {
@@ -698,6 +780,10 @@
     {"name":"IP_MULTICAST_LOOP"}, 
     {"name":"IP_MULTICAST_TTL"}
   ]
+},
+{
+  "name":"java.net.URI",
+  "methods":[{"name":"<init>","parameterTypes":["java.lang.String"] }]
 },
 {
   "name":"java.nio.Bits",
@@ -809,6 +895,9 @@
   "name":"org.eclipse.microprofile.jwt.JsonWebToken"
 },
 {
+  "name":"org.eclipse.microprofile.metrics.MetricRegistry"
+},
+{
   "name":"org.eclipse.microprofile.reactive.messaging.spi.Connector",
   "allDeclaredMethods":true
 },
@@ -849,6 +938,18 @@
 },
 {
   "name":"org.jboss.resteasy.microprofile.client.DefaultResponseExceptionMapper",
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
+  "name":"org.jboss.resteasy.microprofile.config.FilterConfigSourceImpl",
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
+  "name":"org.jboss.resteasy.microprofile.config.ServletConfigSourceImpl",
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
+  "name":"org.jboss.resteasy.microprofile.config.ServletContextConfigSourceImpl",
   "methods":[{"name":"<init>","parameterTypes":[] }]
 },
 {

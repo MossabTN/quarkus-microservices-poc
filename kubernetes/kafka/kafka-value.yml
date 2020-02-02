@@ -1,0 +1,10 @@
+cp-kafka-connect:
+  enabled: false
+cp-ksql-server:
+  enabled: false
+cp-control-center:
+  enabled: false
+cp-zookeeper:
+  servers: 1
+cp-kafka:
+  brokers: 1

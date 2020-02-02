@@ -1,6 +1,6 @@
 module.exports = [
         {
-            "username": "admin",
+            "customer": "admin",
             "email": "admin@maxilog.io",
             "firstName": "admin",
             "lastName": "admin",

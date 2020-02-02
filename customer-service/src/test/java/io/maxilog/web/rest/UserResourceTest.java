@@ -59,8 +59,8 @@ class UserResourceTest {
                 .then()
                 .statusCode(200)
                 .contentType(JSON)
-                .body("email", hasItem(DEFAULT_EMAIL))
-                .body("username",hasItem(DEFAULT_USERNAME));
+                .body("content[0].email", equalTo(DEFAULT_EMAIL))
+                .body("content[0].username",equalTo(DEFAULT_USERNAME));
     }
 
     @Test

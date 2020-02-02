@@ -1,0 +1,101 @@
+apiVersion: "v1"
+kind: "Service"
+metadata:
+  labels:
+    app: "order-service"
+  name: "order-service"
+spec:
+  ports:
+    - name: "http"
+      port: 80
+      targetPort: 8084
+  selector:
+    app: "maxilog-order"
+  type: "ClusterIP"
+---
+apiVersion: "apps/v1"
+kind: "Deployment"
+metadata:
+  labels:
+    app: "maxilog-order"
+  name: "maxilog-order"
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: "maxilog-order"
+  template:
+    metadata:
+      labels:
+        app: "maxilog-order"
+    spec:
+      containers:
+        - image: "maxilog/order:latest"
+          imagePullPolicy: "IfNotPresent"
+          name: "maxilog-order"
+          ports:
+            - containerPort: 8084
+              name: "order-http"
+          env:
+            - name: "MAXILOG_KEYCLOAK_URL"
+              value: http://keycloak-http
+            - name: "MAXILOG_KEYCLOAK_REALM"
+              value: "local"
+            - name: "QUARKUS_OIDC_CLIENT_ID"
+              value: "back"
+            - name: "QUARKUS_OIDC_CREDENTIALS_SECRET"
+              value: "back"
+            - name: "QUARKUS_DATASOURCE_URL"
+              value: jdbc:postgresql://postgres-service:5432/order
+            - name: "QUARKUS_DATASOURCE_USERNAME"
+              value: "maxilog-order-user"
+            - name: "QUARKUS_DATASOURCE_PASSWORD"
+              value: "maxilog-order-password"
+            - name: "CUSTOMER_MP_REST_URL"
+              value: http://customer-service
+            - name: "PRODUCT_MP_REST_URL"
+              value: http://product-service
+            - name: "MP_MESSAGING_OUTGOING_PRODUCT_SCHEMA_REGISTRY_URL"
+              value: http://kafka-cp-schema-registry:8081
+            - name: "MP_MESSAGING_OUTGOING_PRODUCT_BOOTSTRAP_SERVERS"
+              value: http://kafka-cp-kafka:9092
+            - name: "MP_MESSAGING_OUTGOING_NOTIFICATION_SCHEMA_REGISTRY_URL"
+              value: http://kafka-cp-schema-registry:8081
+            - name: "MP_MESSAGING_OUTGOING_NOTIFICATION_BOOTSTRAP_SERVERS"
+              value: http://kafka-cp-kafka:9092
+#          livenessProbe:
+#            failureThreshold: 3
+#            httpGet:
+#              path: "/health/live"
+#              port: 8084
+#              scheme: "HTTP"
+#            initialDelaySeconds: 0
+#            periodSeconds: 30
+#            successThreshold: 1
+#            timeoutSeconds: 10
+#          readinessProbe:
+#            failureThreshold: 3
+#            httpGet:
+#              path: "/health/ready"
+#              port: 8084
+#              scheme: "HTTP"
+#            initialDelaySeconds: 0
+#            periodSeconds: 30
+#            successThreshold: 1
+#            timeoutSeconds: 10
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: order
+#  annotations:
+#    plugins.konghq.com: kong-oidc
+spec:
+  rules:
+    - http:
+        paths:
+          - path: /order
+            backend:
+              serviceName: order-service
+              servicePort: 80
+

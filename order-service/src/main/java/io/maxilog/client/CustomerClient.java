@@ -10,10 +10,10 @@ import javax.ws.rs.*;
 @Path("/users/")
 @Produces({"application/json"})
 @Consumes({"application/json"})
-@RegisterRestClient(configKey = "user")
+@RegisterRestClient(configKey = "customer")
 @RegisterClientHeaders(OAuth2InterceptedConfiguration.class)
 @SuppressWarnings("all")
-public interface UserClient {
+public interface CustomerClient {
 
 
     @GET

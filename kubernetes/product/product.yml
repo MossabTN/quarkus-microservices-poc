@@ -1,0 +1,97 @@
+apiVersion: "v1"
+kind: "Service"
+metadata:
+  labels:
+    app: "product-service"
+  name: "product-service"
+spec:
+  ports:
+    - name: "http"
+      port: 80
+      targetPort: 8083
+  selector:
+    app: "maxilog-product"
+  type: "ClusterIP"
+---
+apiVersion: "apps/v1"
+kind: "Deployment"
+metadata:
+  labels:
+    app: "maxilog-product"
+  name: "maxilog-product"
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: "maxilog-product"
+  template:
+    metadata:
+      labels:
+        app: "maxilog-product"
+    spec:
+      containers:
+        - image: "maxilog/product:latest"
+          imagePullPolicy: "IfNotPresent"
+          name: "maxilog-product"
+          ports:
+            - containerPort: 8083
+              name: "product-http"
+          env:
+            - name: "MAXILOG_KEYCLOAK_URL"
+              value: http://keycloak-http
+            - name: "MAXILOG_KEYCLOAK_REALM"
+              value: "local"
+            - name: "QUARKUS_OIDC_CLIENT_ID"
+              value: "back"
+            - name: "QUARKUS_OIDC_CREDENTIALS_SECRET"
+              value: "back"
+            - name: "QUARKUS_DATASOURCE_URL"
+              value: jdbc:postgresql://postgres-service:5432/product
+            - name: "QUARKUS_DATASOURCE_USERNAME"
+              value: "maxilog-product-user"
+            - name: "QUARKUS_DATASOURCE_PASSWORD"
+              value: "maxilog-product-password"
+            - name: "MP_MESSAGING_OUTGOING_NOTIFICATION_SCHEMA_REGISTRY_URL"
+              value: http://kafka-cp-schema-registry:8081
+            - name: "MP_MESSAGING_OUTGOING_NOTIFICATION_BOOTSTRAP_SERVERS"
+              value: http://kafka-cp-kafka:9092
+            - name: "MP_MESSAGING_INCOMING_INPUT_SCHEMA_REGISTRY_URL"
+              value: http://kafka-cp-schema-registry:8081
+            - name: "MP_MESSAGING_INCOMING_INPUT_BOOTSTRAP_SERVERS"
+              value: http://kafka-cp-kafka:9092
+#          livenessProbe:
+#            failureThreshold: 3
+#            httpGet:
+#              path: "/health/live"
+#              port: 8083
+#              scheme: "HTTP"
+#            initialDelaySeconds: 0
+#            periodSeconds: 30
+#            successThreshold: 1
+#            timeoutSeconds: 10
+#          readinessProbe:
+#            failureThreshold: 3
+#            httpGet:
+#              path: "/health/ready"
+#              port: 8083
+#              scheme: "HTTP"
+#            initialDelaySeconds: 0
+#            periodSeconds: 30
+#            successThreshold: 1
+#            timeoutSeconds: 10
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: product
+#  annotations:
+#    plugins.konghq.com: kong-oidc
+spec:
+  rules:
+    - http:
+        paths:
+          - path: /product
+            backend:
+              serviceName: product-service
+              servicePort: 80
+

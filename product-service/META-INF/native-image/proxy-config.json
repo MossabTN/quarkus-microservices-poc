@@ -4,5 +4,6 @@
   ["java.sql.Connection"],
   ["java.sql.ResultSet"],
   ["java.sql.Statement"],
+  ["javax.servlet.http.HttpServletRequest"],
   ["javax.ws.rs.ext.Providers"]
 ]

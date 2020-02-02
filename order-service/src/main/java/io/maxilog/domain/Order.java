@@ -42,32 +42,35 @@ public class Order implements Serializable {
     @Embedded
     private Address shipmentAddress;
 
-    @JsonIgnoreProperties("order")
     @OneToMany(mappedBy = "order",cascade = CascadeType.ALL)
     private Set<OrderItem> orderItems;
 
     @NotNull
-    @Column(name = "username", nullable = false)
-    private String username;
+    @Column(name = "customer", nullable = false)
+    private String customer;
 
     public Order() {}
 
-    public Order(@NotNull BigDecimal totalPrice, @NotNull OrderStatus status, @NotNull String username) {
+    public Order(@NotNull BigDecimal totalPrice, @NotNull OrderStatus status, @NotNull String customer) {
         this.totalPrice = totalPrice;
         this.status = status;
-        this.username = username;
+        this.customer = customer;
+    }
+
+    public Order(Set<OrderItem> orderItems) {
+        this.orderItems = orderItems;
     }
 
     public Order(BigDecimal totalPrice, OrderStatus status,
                  LocalDateTime shipped, Payment payment, Address shipmentAddress,
-                 Set<OrderItem> orderItems, String username) {
+                 Set<OrderItem> orderItems, String customer) {
         this.totalPrice = totalPrice;
         this.status = status;
         this.shipped = shipped;
         this.payment = payment;
         this.shipmentAddress = shipmentAddress;
         this.orderItems = orderItems;
-        this.username = username;
+        this.customer = customer;
     }
 
     public Long getId() {
@@ -126,12 +129,12 @@ public class Order implements Serializable {
         this.orderItems = orderItems;
     }
 
-    public String getUsername() {
-        return username;
+    public String getCustomer() {
+        return customer;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setCustomer(String customer) {
+        this.customer = customer;
     }
 
     @Override
@@ -157,7 +160,7 @@ public class Order implements Serializable {
                 ", payment=" + payment +
                 ", shipmentAddress=" + shipmentAddress +
                 ", orderItems=" + orderItems +
-                ", username=" + username +
+                ", customer=" + customer +
                 '}';
     }
 }

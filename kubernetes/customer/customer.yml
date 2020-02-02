@@ -1,0 +1,87 @@
+apiVersion: "v1"
+kind: "Service"
+metadata:
+  labels:
+    app: "customer-service"
+  name: "customer-service"
+spec:
+  ports:
+    - name: "http"
+      port: 80
+      targetPort: 8081
+  selector:
+    app: "maxilog-customer"
+  type: "ClusterIP"
+---
+apiVersion: "apps/v1"
+kind: "Deployment"
+metadata:
+  labels:
+    app: "maxilog-customer"
+  name: "maxilog-customer"
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: "maxilog-customer"
+  template:
+    metadata:
+      labels:
+        app: "maxilog-customer"
+    spec:
+      containers:
+        - image: "maxilog/customer:latest"
+          imagePullPolicy: "IfNotPresent"
+          name: "maxilog-customer"
+          ports:
+            - containerPort: 8081
+              name: "customer-http"
+          env:
+            - name: "MAXILOG_KEYCLOAK_URL"
+              value: http://keycloak-http
+            - name: "MAXILOG_KEYCLOAK_REALM"
+              value: "local"
+            - name: "QUARKUS_OIDC_CLIENT_ID"
+              value: "back"
+            - name: "QUARKUS_OIDC_CREDENTIALS_SECRET"
+              value: "back"
+            - name: "MP_MESSAGING_OUTGOING_NOTIFICATION_SCHEMA_REGISTRY_URL"
+              value: http://kafka-cp-schema-registry:8081
+            - name: "MP_MESSAGING_OUTGOING_NOTIFICATION_BOOTSTRAP_SERVERS"
+              value: http://kafka-cp-kafka:9092
+          livenessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: "/health/live"
+              port: 8081
+              scheme: "HTTP"
+            initialDelaySeconds: 0
+            periodSeconds: 30
+            successThreshold: 1
+            timeoutSeconds: 10
+          readinessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: "/health/ready"
+              port: 8081
+              scheme: "HTTP"
+            initialDelaySeconds: 0
+            periodSeconds: 30
+            successThreshold: 1
+            timeoutSeconds: 10
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: customer
+#  annotations:
+#    plugins.konghq.com: kong-oidc
+spec:
+  rules:
+    - http:
+        paths:
+          - path: /customer
+            backend:
+              serviceName: customer-service
+              servicePort: 80
+

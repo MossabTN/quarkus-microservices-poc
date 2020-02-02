@@ -43,9 +43,9 @@ public class ProductResource {
 
     @GET
     @Path("/products/search")
-    public Page<ProductDTO> findAllByProductName(@QueryParam("name") String fullName, @BeanParam PageableImpl pageable) {
-        LOGGER.debug("REST request to get all Products by fullName {}", fullName);
-        return productService.findAllByName(fullName, pageable);
+    public Page<ProductDTO> findAllByProductName(@QueryParam("name") String name, @BeanParam PageableImpl pageable) {
+        LOGGER.debug("REST request to get all Products by name {}", name);
+        return productService.findAllByName(name, pageable);
     }
 
     @GET
