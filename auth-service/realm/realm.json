@@ -553,18 +553,18 @@
     {
       "id": "1ca8ff67-a135-49ed-8fc6-9c87b889c8a0",
       "clientId": "back",
-      "rootUrl": "http://localhost:8180",
-      "adminUrl": "http://localhost:8180",
+      "rootUrl": "https://localhost:8180",
+      "adminUrl": "https://localhost:8180",
       "surrogateAuthRequired": false,
       "enabled": true,
       "clientAuthenticatorType": "client-secret",
       "secret": "back",
       "redirectUris": [
-        "http://localhost:8080/*",
-        "http://localhost:4200/*"
+        "https://localhost:9090/*",
+        "https://localhost:4200/*"
       ],
       "webOrigins": [
-        "http://localhost:8080"
+        "https://localhost:9090"
       ],
       "notBefore": 0,
       "bearerOnly": false,
@@ -797,12 +797,12 @@
       "clientAuthenticatorType": "client-secret",
       "secret": "**********",
       "redirectUris": [
-        "http://localhost:8080/*",
-        "http://localhost:4200/*"
+        "https://localhost:9090/*",
+        "https://localhost:4200/*"
       ],
       "webOrigins": [
-        "http://localhost:8080",
-        "http://localhost:4200"
+        "https://localhost:9090",
+        "https://localhost:4200"
       ],
       "notBefore": 0,
       "bearerOnly": false,
