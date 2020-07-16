@@ -7,7 +7,7 @@ services:
     networks:
       - confluent-net
     ports:
-      - 2181:2181
+      - 2081:2081
     environment:
       zk_id: "1"
 
@@ -19,12 +19,12 @@ services:
     networks:
       - confluent-net
     ports:
-      - 9092:9092
+      - 9002:9002
     environment:
       KAFKA_ADVERTISED_HOST_NAME: "kafka"
-      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9002
       KAFKA_BROKER_ID: "0"
-      KAFKA_ZOOKEEPER_CONNECT: "zookeeper:2181"
+      KAFKA_ZOOKEEPER_CONNECT: "zookeeper:2081"
 
   schema-registry:
     image: confluent/schema-registry:3.0.0
@@ -41,7 +41,7 @@ services:
       SR_LISTENERS: http://schema-registry:8081
       SR_DEBUG: 'true'
       SR_KAFKASTORE_TOPIC_REPLICATION_FACTOR: '1'
-      SR_KAFKASTORE_TOPIC_SERVERS: PLAINTEXT://kafka:9092
+      SR_KAFKASTORE_TOPIC_SERVERS: PLAINTEXT://kafka:9002
 
   rest-proxy:
     image: confluent/rest-proxy
@@ -54,8 +54,8 @@ services:
     ports:
       - "8882:8082"
     environment:
-      RP_ZOOKEEPER_CONNECT: "zookeeper:2181"
-      RP_SCHEMA_REGISTRY_URL: "http://schema-registry:8081"
+      RP_ZOOKEEPER_CONNECT: "zookeeper:2081"
+      RP_SCHEMA_REGISTRY_URL: "https://schema-registry:8081"
 
 networks:
   confluent-net:
