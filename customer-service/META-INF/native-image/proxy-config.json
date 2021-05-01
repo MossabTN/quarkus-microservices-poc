@@ -1,6 +1,4 @@
 [
   ["io.maxilog.Security.TokenManager$TokenService","org.jboss.resteasy.client.jaxrs.internal.proxy.ResteasyClientProxy"],
-  ["io.maxilog.Security.TokenManager$TokenService","org.jboss.resteasy.microprofile.client.RestClientProxy","java.io.Closeable"],
-  ["javax.servlet.http.HttpServletRequest"],
-  ["javax.ws.rs.ext.Providers"]
+  ["io.maxilog.Security.TokenManager$TokenService","org.jboss.resteasy.microprofile.client.RestClientProxy","java.io.Closeable"]
 ]

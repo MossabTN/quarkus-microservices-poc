@@ -1,0 +1,67 @@
+def label = "worker-${UUID.randomUUID().toString()}"
+
+podTemplate(
+        label: label,
+        containers: [
+                containerTemplate(name: 'maven', image: 'maven:3.6.3-openjdk-11', command: 'cat', ttyEnabled: true),
+                containerTemplate(name: 'docker', image: 'docker', command: 'cat', ttyEnabled: true),
+                containerTemplate(name: 'kubectl', image: 'bitnami/kubectl:1.20.2', command: 'cat', ttyEnabled: true)
+        ],
+        volumes: [
+                hostPathVolume(mountPath: '/var/run/docker.sock', hostPath: '/var/run/docker.sock'),
+                persistentVolumeClaim(mountPath: '/root/.m2', claimName: 'maven-repo', readOnly: false)
+        ]) {
+    node(label) {
+        stage('Checkout') {
+            def myRepo = checkout scm
+            def gitCommit = myRepo.GIT_COMMIT
+            def gitBranch = myRepo.GIT_BRANCH
+            def shortGitCommit = "${gitCommit[0..10]}"
+            def previousGitCommit = sh(script: "git rev-parse ${gitCommit}~", returnStdout: true)
+            def version = 'latest'
+        }
+        dir("customer-service") {
+            try {
+                stage('Test') {
+                    container('maven') {
+                        version = sh script: 'mvn help:evaluate -Dexpression=project.version -q -DforceStdout', returnStdout: true
+                        version = version.substring(0, version.length() - 9)
+                        //sh 'mvn test'
+                    }
+                }
+                stage('Build') {
+                    container('maven') {
+                        sh './mvnw -B clean package -Pnative -Dmaven.test.skip=true -Dfindbugs.fork=false'
+                    }
+                }
+                stage('SonarQube analysis') {
+                    container('maven') {
+                        withSonarQubeEnv(credentialsId: 'sonarqube', installationName: 'sonarqube.maxilog.tech') {
+                            sh './mvnw sonar:sonar'
+                        }
+                        timeout(time: 5, unit: 'MINUTES') {
+                            def qg = waitForQualityGate()
+                            if (qg.status != 'OK') {
+                                error "Pipeline aborted due to quality gate failure: ${qg.status}"
+                            }
+                        }
+                    }
+                }
+                stage('Create Docker images') {
+                    container('docker') {
+                        withCredentials([usernamePassword(credentialsId: 'nexus', passwordVariable: 'NEXUS_PASSWORD', usernameVariable: 'NEXUS_USERNAME')]) {
+                            sh "docker login -u ${NEXUS_USERNAME} -p ${NEXUS_PASSWORD} docker.maxilog.tech"
+                            sh "docker build -t docker.maxilog.tech/poc/quarkus/customer:${version} ."
+                            sh "docker push docker.maxilog.tech/poc/quarkus/customer:${version}"
+                        }
+                    }
+                }
+            } catch (e) {
+                currentBuild.result = "FAILED"
+                throw e
+            } finally {
+
+            }
+        }
+    }
+}
